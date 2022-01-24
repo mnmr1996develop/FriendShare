@@ -5,11 +5,14 @@ import com.MichaelRichards.FriendShare.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.UUID;
 
+@Service
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -22,6 +25,14 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public List<User> findAll(){
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()){
+            return new ArrayList<>();
+        }
+        else return users;
+    }
+
     public User findUserByUsername(String username){
         return userRepository.findByUsername(username).orElse(null);
     }
@@ -30,8 +41,8 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public User findById(UUID uuid){
-        return  userRepository.findById(uuid).orElse(null);
+    public User findById(Long id){
+        return  userRepository.findById(id).orElse(null);
     }
 
 }

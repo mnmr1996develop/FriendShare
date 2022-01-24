@@ -1,15 +1,18 @@
 package com.MichaelRichards.FriendShare.Entity;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -19,13 +22,27 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class User implements UserDetails {
 
+    public User(String firstName, String lastName, String email, String username, String password, boolean locked, boolean isAccountExpired, boolean isCredentialsExpired, boolean enabled, LocalDate birthday) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.locked = locked;
+        this.isAccountExpired = isAccountExpired;
+        this.isCredentialsExpired = isCredentialsExpired;
+        this.enabled = enabled;
+        this.birthday = birthday;
+        this.age = getAge();
+    }
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID uuid;
+    private Long id;
 
 
     @NotNull
@@ -46,6 +63,7 @@ public class User implements UserDetails {
 
     @NotNull
     @Column(name = "password")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
 
@@ -60,6 +78,22 @@ public class User implements UserDetails {
 
     @Column(name = "enabled")
     private boolean enabled;
+
+    @Past
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
+
+    @Transient
+    private Long age;
+
+
+    public Long getAge(){
+        return ChronoUnit.YEARS.between(birthday ,LocalDate.now());
+    }
+
+
+
 
 
     @Override
