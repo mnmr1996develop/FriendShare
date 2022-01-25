@@ -25,18 +25,18 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class User implements UserDetails {
 
-    public User(String firstName, String lastName, String email, String username, String password, boolean locked, boolean isAccountExpired, boolean isCredentialsExpired, boolean enabled, LocalDate birthday) {
+
+    public User(String firstName, String lastName, String email, String username, String password, boolean isAccountNonLocked, boolean isAccountNonExpired, boolean isCredentialsNonExpired, boolean enabled, LocalDate birthday) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.locked = locked;
-        this.isAccountExpired = isAccountExpired;
-        this.isCredentialsExpired = isCredentialsExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.enabled = enabled;
         this.birthday = birthday;
-        this.age = getAge();
     }
 
     @Id
@@ -67,14 +67,17 @@ public class User implements UserDetails {
     private String password;
 
 
-    @Column(name = "locked")
-    private boolean locked;
+    @NotNull
+    @Column(name = "non_locked")
+    private boolean isAccountNonLocked;
 
-    @Column(name = "is_account_expired")
-    private boolean isAccountExpired;
+    @NotNull
+    @Column(name = "is_account_non_expired")
+    private boolean isAccountNonExpired;
 
-    @Column(name = "is_credentials_expired")
-    private boolean isCredentialsExpired;
+    @NotNull
+    @Column(name = "is_credentials_non_expired")
+    private boolean isCredentialsNonExpired;
 
     @Column(name = "enabled")
     private boolean enabled;
@@ -85,6 +88,7 @@ public class User implements UserDetails {
     private LocalDate birthday;
 
     @Transient
+    @Setter(value = AccessLevel.NONE)
     private Long age;
 
 
@@ -108,17 +112,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return !isAccountExpired;
+        return isAccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return !isCredentialsExpired;
+        return isCredentialsNonExpired;
     }
 
     @Override
