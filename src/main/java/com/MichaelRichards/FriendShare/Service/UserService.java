@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +43,21 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveUser(User user){
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+
+        boolean isUsernameTaken = userRepository.findByUsername(user.getUsername()).isPresent();
+        boolean isEmailTaken = userRepository.findByEmail(user.getEmail()).isPresent();
+
+
+        if(!isEmailTaken && !isUsernameTaken) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        }
+        else if(isEmailTaken){
+            throw new IllegalStateException("Email "+ user.getEmail() +" Taken");
+        }
+        else {
+            throw new IllegalStateException("Username "+ user.getUsername() +" Taken");
+        }
     }
 
     public void deleteUserByUsername(String username){
