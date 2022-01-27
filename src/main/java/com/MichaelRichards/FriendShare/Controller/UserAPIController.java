@@ -1,9 +1,13 @@
 package com.MichaelRichards.FriendShare.Controller;
 
 
+import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameNotFoundException;
 import com.MichaelRichards.FriendShare.Entity.User;
 import com.MichaelRichards.FriendShare.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,23 +24,18 @@ public class UserAPIController {
 
 
     @GetMapping
-    public List<User> getUsers(){
-        return new ArrayList<>(userService.findAll());
+    public ResponseEntity<List<User>> getUsers(){
+        return ResponseEntity.status(HttpStatus.OK).body((new ArrayList<>(userService.findAll())));
     }
 
     @PostMapping
-    public void addUser(@RequestBody User user) throws Exception{
-        userService.saveUser(user);
+    public ResponseEntity<User> addUser(@RequestBody User user) throws Exception{
+        return ResponseEntity.status(HttpStatus.OK).body(userService.saveUser(user));
     }
 
     @GetMapping("/{username}")
-    public User getUser(@PathVariable String username) throws Exception{
-        if(userService.findUserByUsername(username) == null){
-            throw new Exception("Username not found");
-        }
-        else {
-            return userService.findUserByUsername(username);
-        }
+    public ResponseEntity<User> getUser(@PathVariable String username) throws Exception{
+        return  ResponseEntity.status(HttpStatus.OK).body(userService.findUserByUsername(username));
     }
 
     @DeleteMapping(path= "{username}")

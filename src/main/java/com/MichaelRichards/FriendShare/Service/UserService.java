@@ -1,9 +1,13 @@
 package com.MichaelRichards.FriendShare.Service;
 
 
+import com.MichaelRichards.FriendShare.APIResponses.Exception.EmailTakenException;
+import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameNotFoundException;
+import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameTakenException;
 import com.MichaelRichards.FriendShare.DAO.UserRepository;
 import com.MichaelRichards.FriendShare.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 
@@ -25,9 +30,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username)  {
-        User user =userRepository.findByUsername(username).orElse(null);
-
-        return user;
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     public List<User> findAll(){
@@ -39,10 +42,13 @@ public class UserService implements UserDetailsService {
     }
 
     public User findUserByUsername(String username){
-        return userRepository.findByUsername(username).orElse(null);
+        return userRepository.findByUsername(username).orElseThrow(
+                () ->
+                        new UsernameNotFoundException(username)
+        );
     }
 
-    public void saveUser(User user){
+    public User saveUser(User user){
 
         boolean isUsernameTaken = userRepository.findByUsername(user.getUsername()).isPresent();
         boolean isEmailTaken = userRepository.findByEmail(user.getEmail()).isPresent();
@@ -51,41 +57,23 @@ public class UserService implements UserDetailsService {
         if(!isEmailTaken && !isUsernameTaken) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
+//            return GoodUserRequest.accountSaved(user);
+            return user;
         }
         else if(isEmailTaken){
-            throw new IllegalStateException("Email "+ user.getEmail() +" Taken");
+            throw new EmailTakenException(user.getEmail());
         }
         else {
-            throw new IllegalStateException("Username "+ user.getUsername() +" Taken");
+            throw new EmailTakenException(user.getUsername());
         }
     }
 
     public void deleteUserByUsername(String username){
-        User user = userRepository.findByUsername(username).orElse(null);
-        if(user == null){
-            throw new IllegalStateException("User does not exist");
-        }
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () ->
+                        new UsernameNotFoundException(username)
+        );
         userRepository.delete(user);
-    }
-
-    private Boolean specialCharacterChecker(String string){
-        Pattern pattern = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
-        return pattern.matcher(string).find();
-    }
-
-    private Boolean hasNumber(String string){
-        Pattern digit = Pattern.compile("[0-9]");
-        return digit.matcher(string).find();
-    }
-
-    private Boolean hasCapitalLetter(String string){
-        Pattern letter = Pattern.compile("[A-Z]");
-        return letter.matcher(string).find();
-    }
-
-    private boolean hasLowCaseLetter(String string) {
-        Pattern letter = Pattern.compile("[a-z]");
-        return letter.matcher(string).find();
     }
 
 
@@ -94,18 +82,12 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateUserByUsername(String username,
-                                     String firstName,
-                                     String lastName,
-                                     String email,
-                                     String Uname,
-                                     String password,
-                                     Boolean isAccountNonLocked,
-                                     Boolean isAccountNonExpired,
-                                     Boolean isCredentialsNonExpired,
-                                     Boolean enabled) {
+    public ResponseEntity<User> updateUserByUsername(String username, String firstName, String lastName, String email, String Uname, String password, Boolean isAccountNonLocked, Boolean isAccountNonExpired, Boolean isCredentialsNonExpired, Boolean enabled) {
 
-        User user = userRepository.findByUsername(username).orElseThrow(()-> new IllegalStateException("No User by that name"));
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () ->
+                        new UsernameNotFoundException(username)
+        );;
 
         if(firstName != null) {
             String newFirstName = firstName.strip().replaceAll(" ", "");
@@ -128,7 +110,7 @@ public class UserService implements UserDetailsService {
                 boolean isEmailPresent = userRepository.findByEmail(email).isPresent();
 
                 if (isEmailPresent) {
-                    throw new IllegalStateException("Email " + newEmail + " already taken");
+                    throw new EmailTakenException(newEmail);
                 } else {
                     user.setEmail(newEmail);
                 }
@@ -145,7 +127,7 @@ public class UserService implements UserDetailsService {
                     user.setUsername(newUname);
                 }
                 else {
-                    throw new IllegalStateException("Username Taken");
+                    throw new UsernameTakenException(newUname);
                 }
             }
             else {
@@ -182,6 +164,27 @@ public class UserService implements UserDetailsService {
         if(isCredentialsNonExpired != null && isCredentialsNonExpired != user.isCredentialsNonExpired()){
             user.setCredentialsNonExpired(isCredentialsNonExpired);
         }
-
+        return ResponseEntity.accepted().body(user);
     }
+
+    private Boolean specialCharacterChecker(String string){
+        Pattern pattern = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+        return pattern.matcher(string).find();
+    }
+
+    private Boolean hasNumber(String string){
+        Pattern digit = Pattern.compile("[0-9]");
+        return digit.matcher(string).find();
+    }
+
+    private Boolean hasCapitalLetter(String string){
+        Pattern letter = Pattern.compile("[A-Z]");
+        return letter.matcher(string).find();
+    }
+
+    private boolean hasLowCaseLetter(String string) {
+        Pattern letter = Pattern.compile("[a-z]");
+        return letter.matcher(string).find();
+    }
+
 }

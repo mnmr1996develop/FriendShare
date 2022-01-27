@@ -1,46 +1,48 @@
 package com.MichaelRichards.FriendShare.Entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Collection;
-import java.util.UUID;
+
+
 
 @Entity
-@Table(name = "User")
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
+@NoArgsConstructor
 @EqualsAndHashCode
+@Table(name = "Users")
 public class User implements UserDetails {
 
 
-    public User(String firstName, String lastName, String email, String username, String password, boolean isAccountNonLocked, boolean isAccountNonExpired, boolean isCredentialsNonExpired, boolean enabled, LocalDate birthday) {
+    public User(String firstName, String lastName, String email, String username, String password, Boolean accountNonLocked, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean enabled, LocalDate birthday) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        AccountNonLocked = accountNonLocked;
+        AccountNonExpired = accountNonExpired;
+        CredentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
         this.birthday = birthday;
+        this.age = getAge();
     }
 
     @Id
-    @Column(name = "id")
+    @Column(name = "user_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -66,21 +68,21 @@ public class User implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-
     @NotNull
     @Column(name = "non_locked")
-    private boolean isAccountNonLocked;
+    private Boolean AccountNonLocked;
 
     @NotNull
     @Column(name = "is_account_non_expired")
-    private boolean isAccountNonExpired;
+    private Boolean AccountNonExpired;
 
     @NotNull
     @Column(name = "is_credentials_non_expired")
-    private boolean isCredentialsNonExpired;
+    private Boolean CredentialsNonExpired;
 
+    @NotNull
     @Column(name = "enabled")
-    private boolean enabled;
+    private Boolean enabled;
 
     @Past
     @NotNull
@@ -91,14 +93,9 @@ public class User implements UserDetails {
     @Setter(value = AccessLevel.NONE)
     private Long age;
 
-
     public Long getAge(){
         return ChronoUnit.YEARS.between(birthday ,LocalDate.now());
     }
-
-
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -112,17 +109,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
+        return AccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
+        return AccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
+        return CredentialsNonExpired;
     }
 
     @Override
