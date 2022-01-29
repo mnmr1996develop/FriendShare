@@ -6,13 +6,15 @@ import Settings from './Components/Pages/Settings';
 import Messages from './Components/Pages/Messages';
 import Home from './Components/Pages/Home';
 import SignInForm from './Components/SignInForm';
+import RegistrationForm from './Components/RegistrationForm';
 
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar />
+       
+        <RegistrationForm />
      
       <Routes>
         <Route path="/" element={<Home />}></Route>
