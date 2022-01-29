@@ -1,57 +1,110 @@
 .navbar {
-    background-color: #121212;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    position: sticky;
     top: 0;
-    z-index: 20;
-}
-
-.nav-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 100000;
+    font-size: 1.2rem;
+    position: fixed;
     width: 100%;
-    height: 80px;
 }
 
-.nav-logo {
-    color: white;
+.nav-container{
     align-items: center;
-    margin-left: 20px;
+    background-color: #121212;
+    width: 100%;
+    height: 60px;
+   display: flex;
+}
+
+.nav-logo{
+    width: 20%;
+    justify-content: right;
+    flex-grow: 1;
+    color: rgb(72, 211, 134);
+    font-size: 2rem;
+    margin: .5rem;
     cursor: pointer;
     text-decoration: none;
-    font-size: 2rem;
-    flex-grow: 1;
+}
+
+.search{
+    align-items: center;
+    height: 60px;
+    display: flex;
+    justify-content: right;
+    width: 30%;
+}
+
+form{
+    width: 90%;
+    justify-content: left;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.search-icon{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.fa-search{
+    color: rgb(72, 211, 134);
+}
+
+input {
+    border-radius: 10px;
+    border-color: rgb(72, 211, 134);
+    width: 80%;
+    height: 50%;
+    font-size: medium;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+
+
+.menu{
+    display: flex;
+    justify-content: right;
+    width: 50%;
+   
 }
 
 .nav-menu{
+    height: 60px;
+    align-items: center;
     display: flex;
     list-style: none;
-    text-align: center;
-    margin-right: 2rem;
 }
 
-.nav-links {
-    color: #fff;
+.nav-item{
+    display: flex;
+    align-items: center;
+    color: rgb(72, 211, 134);
+}
+
+.nav-item:hover{
+    background-color: #68686833;
+    border-radius: 10px;
+    transform: translateY(-1px);
+    color: rgb(39, 250, 84);
+    
+}
+
+.nav-item .active{
+    color: rgb(39, 250, 84);
+    
+}
+
+
+.nav-links{
+    color: inherit;
     text-decoration: none;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem .75rem;
     height: 100%;
     border-bottom: 3px solid transparent;
 }
 
-.nav-item {
-    line-height: 40px;
-    margin-right: 1rem;
-}
 
-.nav-item::after{
-    content: "";
-    display: block;
-    height: 3px;
-    width: 0;
-    background: transparent;
-}

@@ -5,13 +5,15 @@ import Friends from './Components/Pages/Friends';
 import Settings from './Components/Pages/Settings';
 import Messages from './Components/Pages/Messages';
 import Home from './Components/Pages/Home';
+import SignInForm from './Components/SignInForm';
+
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Navbar />
-      
+     
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/Friends" element={<Friends />}></Route>
