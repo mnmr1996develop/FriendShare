@@ -1,6 +1,6 @@
 import React, {useState}  from 'react';
 import { NavLink } from 'react-router-dom';
-import "./Navbar.css"
+import "../Resources/Styles/Components/Navbar.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {  faBars , faTimes, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -35,7 +35,7 @@ function Navbar() {
               </i>
               </div>
               <form onSubmit={onSubmit}>
-              <input type="text" value={search} onChange={(e) => {setSearch(e.target.value)}}></input>
+              <input id='nav-search' type="text" value={search} onChange={(e) => {setSearch(e.target.value)}}></input>
               </form>
             </div>
             <div className='menu'>

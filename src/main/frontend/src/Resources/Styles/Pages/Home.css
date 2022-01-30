@@ -1,6 +1,5 @@
 .Home{
-    height: 100vh;
+    height: 93vh;
     display: flex;
-    padding-top: 60px;
     justify-content: left;
 }

@@ -1,0 +1,102 @@
+.RegistrationForm {
+    display: flex;
+    
+    width: 50%;
+    justify-content: right;
+
+}
+
+
+.RegistrationForm form {
+    background-color: white;
+    border-radius: 4px;
+    border-color: mediumseagreen;
+    color: black;
+    display: block;
+    font-size: 20px;
+    padding: 2%;
+}
+
+.top{
+    display: flex;
+}
+
+.lettering{
+    width: 90%;
+}
+
+.close {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close:hover {
+    cursor: pointer;
+}
+
+.RegistrationForm input {
+    border-radius: 4px;
+    
+    margin-top: 10px;
+}
+
+.input-box input{
+    font-size: medium;
+    width: 95%;
+    height: 40px
+}
+
+.input-box-half input{
+    margin-right: 3px;
+    width: 46.5%;
+    height: 40px;
+}
+
+.Registration-Password{
+    display: flex;
+    margin: 25px;
+}
+
+.registrationSubmit{
+    display: flex;
+    justify-content: center;
+}
+
+.registrationSubmit button{
+    height: 40px;
+    width:  30%;
+    background-color: rgb(153, 152, 152);
+    border-radius: 3px;
+}
+
+.registrationSubmit button:hover{
+    color: white;
+    background-color: mediumseagreen;
+}
+
+
+.password-checklist{
+    display: block;
+    text-align: center;
+    width: 14.25%;
+    
+    height: 40px;
+    font-size: small;
+}
+
+
+
+
+li {
+    list-style: none;
+}
+
+
+@media only screen and (max-width: 1000px) {
+    .RegistrationForm {
+        width: 100%;
+        justify-content: center;
+    }
+  }
