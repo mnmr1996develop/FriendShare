@@ -8,9 +8,9 @@ import { library } from "@fortawesome/fontawesome-svg-core"
 function Navbar() {
   library.add(faBars)
 
-  const [click, setClick] = useState(false);
+  const [navClick, setNavClick] = useState(false);
 
-  var handleClick = () => setClick(!click);
+  var handleNavClick = () => setNavClick(!navClick);
 
   const[search, setSearch]= useState("");
 
@@ -19,26 +19,36 @@ function Navbar() {
   }
 
 
+
   return(
     <div>
         <nav className='navbar'>
           <div className='nav-container' >
-            <div className='nav-logo'>
-              <NavLink to ="/" className="nav-logo">
-                FriendShare
-              </NavLink>
-            </div>
-            <div className='search'>
-              <div className='search-icon'>
-              <i>
-                <FontAwesomeIcon id="search-icon" icon={faSearch} className='fa-search'></FontAwesomeIcon>
-              </i>
+            <div className='always-there'>
+              <div className='nav-logo-container'>
+                <NavLink to ="/" className="nav-logo">
+                  FriendShare
+                </NavLink>
               </div>
-              <form onSubmit={onSubmit}>
-              <input id='nav-search' type="text" value={search} onChange={(e) => {setSearch(e.target.value)}}></input>
-              </form>
+              <div className='search'>
+                <div className='search-icon'>
+                  <i>
+                    <FontAwesomeIcon id="search-icon" icon={faSearch} className='fa-search'></FontAwesomeIcon>
+                  </i>
+                </div>
+                <form onSubmit={onSubmit}>
+                  <input id='nav-search' type="text" value={search} onChange={(e) => {setSearch(e.target.value)}}></input>
+                </form>
+              </div>
+          
+              <div onClick={handleNavClick} className='menu-pop'>
+                <i>
+                  <FontAwesomeIcon id="search-icon" icon={navClick ? faTimes : faBars} className='fa-search'></FontAwesomeIcon>
+                </i>
+              </div>
             </div>
-            <div className='menu'>
+            
+            <div className={navClick ? 'menu' : 'menu-condensed'}>
               <ul className="nav-menu">
                 <li className="nav-item">
                   <NavLink to ="/" className="nav-links">
@@ -62,7 +72,7 @@ function Navbar() {
                 </li>
                 <li className="nav-item">
                   <NavLink to ="/SignIn" className="nav-links">
-                  Sign In
+                  Sign Out
                   </NavLink>
                 </li>
               </ul>

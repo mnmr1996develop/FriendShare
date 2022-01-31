@@ -1,9 +1,9 @@
 .navbar {
     top: 0;
     display: flex;
-    z-index: 100000;
+    z-index: 0;
     font-size: 1.2rem;
-    position: fixed;
+    position: relative;
     width: 100%;
 }
 
@@ -11,27 +11,38 @@
     align-items: center;
     background-color: #121212;
     width: 100%;
-    height: 7vh;
    display: flex;
+   
 }
 
-.nav-logo{
+.always-there{
+    display: flex;
+    width: 50%;
+}
+
+.nav-logo-container{
     width: 20%;
     justify-content: right;
     flex-grow: 1;
-    color: rgb(72, 211, 134);
+    
     font-size: 2rem;
     margin: .5rem;
     cursor: pointer;
-    text-decoration: none;
+    
 }
+
+.nav-logo {
+    text-decoration: none;
+    color: rgb(72, 211, 134);
+}
+
 
 .search{
     align-items: center;
-    height: 7vh;
+    height: 60px;
     display: flex;
-    justify-content: right;
-    width: 30%;
+    justify-content: center;
+    width: 60%;
 }
 
 form{
@@ -67,17 +78,25 @@ form{
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
+.menu-pop{
+    display: none;
+}
 
 
 .menu{
     display: flex;
     justify-content: right;
     width: 50%;
-   
+}
+
+.menu-condensed{
+    display: flex;
+    justify-content: right;
+    width: 50%;
 }
 
 .nav-menu{
-    height: 6.506506506506507vh;
+    height: 60px;
     align-items: center;
     display: flex;
     list-style: none;
@@ -87,6 +106,7 @@ form{
     display: flex;
     align-items: center;
     color: rgb(72, 211, 134);
+    transition: 300ms;
 }
 
 .nav-item:hover{
@@ -99,7 +119,6 @@ form{
 
 .nav-item .active{
     color: rgb(39, 250, 84);
-    
 }
 
 
@@ -111,4 +130,73 @@ form{
     border-bottom: 3px solid transparent;
 }
 
+
+@media only screen and (max-width: 990px) {
+    .navbar{
+        position: relative;
+    }
+    
+    .nav-container{
+        align-items: center;
+        width: 100%;
+       display: block;
+    }
+    
+    .always-there{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        
+    }
+
+    .nav-logo-container{
+        width: 38%;
+    }
+
+    .search{
+        width: 40%;
+
+    }
+    
+    .menu-pop{
+        display:flex;
+        width: 18%;
+        justify-content: center;
+    }
+
+    .nav-menu{
+        border-radius: 5px;
+        height: 227px;
+    }
+
+    .menu{
+        border-radius: 5px;
+        display: block;
+        justify-content: right;
+        width: 100%;
+        background-color: #202020;
+    }
+
+    .menu ul{
+        display: block;
+        
+    }
+
+    .menu ul li{
+        display: flex;
+        justify-content: center;
+    }
+
+    .menu-condensed{
+        display: none;
+    }
+
+
+}
+
+@media screen and (max-width: 400px) {
+    .search{
+        display: none;
+    }
+}
 
