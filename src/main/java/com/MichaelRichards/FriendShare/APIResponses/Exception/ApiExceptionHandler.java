@@ -18,6 +18,7 @@ public class ApiExceptionHandler {
         ApiException apiException=  new ApiException(
                 notFound,
                 exception.getMessage(),
+                "USER_NOT_FOUND",
                 ZonedDateTime.now(ZoneId.of("US/Eastern"))
         );
         return new ResponseEntity<>(apiException, notFound);
@@ -29,6 +30,33 @@ public class ApiExceptionHandler {
         ApiException apiException=  new ApiException(
                 badRequest,
                 exception.getMessage(),
+                "EMAIL_TAKEN",
+                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+        );
+
+        return new ResponseEntity<>(apiException, badRequest);
+    }
+
+    @ExceptionHandler(value = {UsernameTakenException.class})
+    public ResponseEntity<Object> handleApiRequestException(UsernameTakenException exception){
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        ApiException apiException=  new ApiException(
+                badRequest,
+                exception.getMessage(),
+                "USER_TAKEN",
+                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+        );
+
+        return new ResponseEntity<>(apiException, badRequest);
+    }
+
+    @ExceptionHandler(value = {LoginNotMatchException.class})
+    public ResponseEntity<Object> handleApiRequestException(LoginNotMatchException exception){
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        ApiException apiException=  new ApiException(
+                badRequest,
+                exception.getMessage(),
+                "BAD_LOGIN_DATA",
                 ZonedDateTime.now(ZoneId.of("US/Eastern"))
         );
 
@@ -42,6 +70,7 @@ public class ApiExceptionHandler {
         ApiException apiException=  new ApiException(
                 badRequest,
                 exception.getMessage(),
+                "CONSTRAINT_VIOLATION",
                 ZonedDateTime.now(ZoneId.of("US/Eastern"))
         );
 

@@ -1,11 +1,9 @@
 package com.MichaelRichards.FriendShare.Controller;
 
 
-import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameNotFoundException;
 import com.MichaelRichards.FriendShare.Entity.User;
 import com.MichaelRichards.FriendShare.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +35,7 @@ public class UserAPIController {
     public ResponseEntity<User> getUser(@PathVariable String username) throws Exception{
         return  ResponseEntity.status(HttpStatus.OK).body(userService.findUserByUsername(username));
     }
+
 
     @DeleteMapping(path= "{username}")
     public void deleteUser(@PathVariable("username") String username) throws Exception{

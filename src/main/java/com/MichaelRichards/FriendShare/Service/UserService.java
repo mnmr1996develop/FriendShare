@@ -2,6 +2,7 @@ package com.MichaelRichards.FriendShare.Service;
 
 
 import com.MichaelRichards.FriendShare.APIResponses.Exception.EmailTakenException;
+import com.MichaelRichards.FriendShare.APIResponses.Exception.LoginNotMatchException;
 import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameNotFoundException;
 import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameTakenException;
 import com.MichaelRichards.FriendShare.DAO.UserRepository;
@@ -143,7 +144,8 @@ public class UserService implements UserDetailsService {
                     hasNumber(newPassword) &&
                     hasCapitalLetter(newPassword) &&
                     hasLowCaseLetter(newPassword) &&
-                    !passwordHashed.equals(user.getPassword())){
+                    !bCryptPasswordEncoder.matches(newPassword, user.getPassword())
+            ){
 
                 user.setPassword(passwordHashed);
             }
@@ -187,4 +189,16 @@ public class UserService implements UserDetailsService {
         return letter.matcher(string).find();
     }
 
+    public User login(String username, String password) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () ->
+                        new LoginNotMatchException(username, password)
+        );
+
+        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
+            throw new LoginNotMatchException(username, password);
+        }
+
+        return user;
+    }
 }

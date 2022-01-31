@@ -12,6 +12,7 @@ public class ApiException {
 
     private final HttpStatus status;
     private final String message;
+    private final String reason;
     private final ZonedDateTime timeStamp;
 
 }
