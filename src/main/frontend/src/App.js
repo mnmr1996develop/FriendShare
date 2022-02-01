@@ -8,6 +8,7 @@ import Home from './Pages/Home';
 import SignInForm from './Components/SignInForm';
 import RegistrationForm from './Components/RegistrationForm';
 import Register from './Pages/Register';
+import Login from './Pages/Login'
 
 
 function App() {
@@ -19,10 +20,11 @@ function App() {
       <Routes >
        
         <Route path="/" element={<Home />}></Route>
-        <Route path="/Friends" element={<Friends />}></Route>
-        <Route path="/Settings" element={<Settings />}></Route>
-        <Route path="/Messages" element={<Messages />}></Route>
-        <Route path="/Register" element={<Register />}></Route>
+        <Route path="/friends" element={<Friends />}></Route>
+        <Route path="/settings" element={<Settings />}></Route>
+        <Route path="/messages" element={<Messages />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route path="/login" element={<Login />}></Route>
       
       </Routes>
       </div>

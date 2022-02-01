@@ -63,7 +63,11 @@ form{
     cursor: pointer;
 }
 
-.fa-search{
+.navbar .fa-search{
+    color: rgb(72, 211, 134);
+}
+
+.navbar .fa-times{
     color: rgb(72, 211, 134);
 }
 

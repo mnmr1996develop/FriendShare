@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react/cjs/react.development';
+import { useState} from 'react/cjs/react.development';
 import UserService from '../Services/UserService';
 import { usePasswordValidation } from '../Hooks/usePasswordValidation';
 import '../Resources/Styles/Components/RegistrationForm.css';
@@ -8,16 +8,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useNavigate } from "react-router-dom";
 
 
+
+
 function RegistrationForm() {
 
 
-    const [fistName, setFirstName] = useState("");
+    const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [retypePassword, setRetypePassword] = useState("");
     const [birthday, setBirthday] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [
             validLength,
             hasNumber,
@@ -31,17 +34,20 @@ function RegistrationForm() {
                 requiredLength: 8
         }
     );
-    
 
-    const history = useNavigate();
+    const [userErrors, setUserErrors ] = useState({});
+
+    const [emailTaken, setEmailTaken ] = useState(false);
+    const [userTaken , setUserTaken ] = useState(false);
+    
+    const navigate = useNavigate();
   
     const routeChange = () =>{ 
-        let path = "/"; 
-        history.push(path);
+        navigate('/login')
     }
 
     var passwordsMatch = () => {
-        return password === retypePassword ? true : false;
+        return password === retypePassword && password.length > 0? true : false;
     }
 
     var validEmail = () => {{
@@ -49,7 +55,7 @@ function RegistrationForm() {
     }}
 
     var passwordChecker =() => {
-        return validLength && hasNumber && upperCase && lowerCase && specialChar;
+        return validLength && hasNumber && upperCase && lowerCase && specialChar && passwordsMatch();
     }
 
     var correctAge = () => {
@@ -64,68 +70,130 @@ function RegistrationForm() {
         return age >= 13 && age < 130 ? true : false;
     }
 
+    const getErrors = () => {
+        let errors = {};
+        if(!firstName.trim()){
+            errors.firstName = true;
+        }
+        if(!lastName.trim()){
+            errors.lastName = true;
+        }
+        if(!email.trim()){
+            errors.emailNull = true;
+        }
+        if(validEmail() === false){
+            errors.emailInvalid = true;
+        }
+        if(username.trim().length < 6 ){
+            errors.userName = true;
+        }
 
-    var failedSubmit = false;
+        if(correctAge() === false){
+            errors.invalidAge = true;
+        }
+
+        if(passwordChecker() === false){
+            errors.invalidPassword = true;
+        }
+
+        if(Object.keys(errors).length === 0){
+            post()
+            return;
+        }
+        
+        else{
+            
+            
+            return errors;
+        }
+    }
     
-    const onsubmit = () =>{
+    const handleSubmit = (e) =>{
+        setEmailTaken(false);
+        setUserTaken(false)
+        e.preventDefault();
+        setIsSubmitting(true);
+        getErrors();
+    }
+
+    const post = () => {
         const enabled = true;
         const credentialsNonExpired = true;
         const accountNonExpired = true;
         const accountNonLocked = true;
 
-        const info = 
+        const payload = 
         {
-            fistName, 
-            lastName,
-            email,
-            username,
-            password,
-            enabled,
-            birthday,
-            credentialsNonExpired,
-            accountNonExpired,
-            accountNonLocked
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "username": username ,
+            "password" : password,
+            "enabled": enabled,
+            "birthday": birthday,
+            "credentialsNonExpired": credentialsNonExpired,
+            "accountNonExpired": accountNonExpired,
+            "accountNonLocked": accountNonLocked
         }
 
-        if(
-            passwordsMatch() &&
-            validEmail() &&
-            correctAge()
-
-        ){
-
-        }
-        else{
-            failedSubmit = true;
-        }
+        console.log(payload)
+        UserService.addUser(payload).then(
+            res => {
+                routeChange()
+            }
+        ) .catch(function (error) {
+            if (error.response) {
+              console.log();
+              if(error.response.data.reason == "EMAIL_TAKEN"){
+                setEmailTaken(true)
+              }
+              else if(error.response.data.reason == "USER_TAKEN"){
+                setUserTaken(true)
+              }
+            } else if (error.request) {
+              console.log(error.request);
+            } else {
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          });
+    
     }
 
+  
   return (
       <div className='RegistrationForm'>
-          <form>
+          <form onSubmit={handleSubmit}> 
             <div className='top'>
                 <div className='lettering'>
                     <h1>Sign Up</h1>
                     <h4>it's Quick and easy.</h4>
                 </div>
                 <div className='close'>
-                <i>
+                <i onClick={routeChange}>
                 <FontAwesomeIcon id="search-icon" icon={faTimes} className='fa-search'></FontAwesomeIcon>
               </i>
                 </div>
             </div>
+            <div className='input-holder'>
             <div className='input-box-half'>
-                <input name='firstName' value={fistName} type="text" onChange={e => {setFirstName(e.target.value.trim().replace(/[^\w\s-]/gi, ""))}} placeholder='First Name' />
-                <input name='lastName'  value={lastName} type="text" onChange={e => {setLastName(e.target.value.trim().replace(/[^\w\s-]/gi, ""))}} placeholder='Last Name'/>
+                <input name='firstName' value={firstName} type="text" onChange={e => {setFirstName(e.target.value.trim().replace(/[^a-zA-Z-]/gi, ""))}} placeholder='First Name' />
+                <input name='lastName'  value={lastName} type="text" onChange={e => {setLastName(e.target.value.trim().replace(/[^a-zA-Z-]/gi, ""))}} placeholder='Last Name'/>
             </div>
         
 
             <div className='input-box'>
-                <input name='email'  value={email} type="text"onChange={e => {setEmail(e.target.value)}} placeholder='Email'/>
+                <input name='email'  value={email} type="text"onChange={e => {setEmail(e.target.value.trim())}} placeholder='Email'/>
+                {emailTaken &&
+                    <h6 style={{ color: 'red'}}>Email Taken</h6>
+                }
             </div>
 
             <div className='input-box'>
-            <input name='username'  value={username} type="text" onChange={e => setUsername(e.target.value.trim().replace(/[^\w\s_-]/gi, ""))} placeholder='Username'/>
+            <input name='username'  value={username} type="text" onChange={e => setUsername(e.target.value.trim().replace(/[^\w_-]/gi, ""))} placeholder='Username'/>
+            {userTaken &&
+                    <h6 style={{ color: 'red'}}>Username Taken</h6>
+                }
             </div>
 
             <div className='input-box'>
@@ -133,30 +201,28 @@ function RegistrationForm() {
             </div>
 
             <div className='input-box-half'>
-            <input id="password" name='password'  type="password" onChange={e => {setPassword(e.target.value); }} placeholder='Password'/>
-            <input id="repassword" name='re-type password' type="password" value={retypePassword} onChange={e => {setRetypePassword(e.target.value)}} placeholder='Retype Password'/>
+            <input id="password" name='password'  type="password" value={password} onChange={e => {setPassword(e.target.value.trim()); }} placeholder='Password'/>
+            <input id="repassword" name='re-type password' type="password" value={retypePassword} onChange={e => {setRetypePassword(e.target.value.trim())}} placeholder='Retype Password'/>
             </div>
-
-           
-            <br />
-
-            <div className='Registration-Password'>
+            </div>
+            <div className='registation-bottom'>
+                <div className='Registration-Password'>
                 <div className='password-checklist'>
-                    <h5>Password Length</h5>
-                    <div className='password-yes-or-no'>
-                        <i>
-                            <FontAwesomeIcon id="search-icon" icon={validLength ? faCheck : faTimes} className='fa-search'></FontAwesomeIcon>
-                        </i>
+                        <h5>Password Length</h5>
+                        <div className='password-yes-or-no'>
+                            <i>
+                                <FontAwesomeIcon id="search-icon" icon={validLength ? faCheck : faTimes} className='fa-search'></FontAwesomeIcon>
+                            </i>
+                        </div>
                     </div>
-                </div>
-                <div className='password-checklist'>
+                    <div className='password-checklist'>
                     <h5> Has a Number</h5>
-                    <div className='password-yes-or-no'>
+                        <div className='password-yes-or-no'>
                         <i>
                             <FontAwesomeIcon id="search-icon" icon={hasNumber ? faCheck : faTimes} className='fa-search'></FontAwesomeIcon>
                         </i>
                     </div>
-                </div>
+                    </div>
                 <div className='password-checklist'>
                     <h5>Has Upper Case</h5>
                     <div className='password-yes-or-no'>
@@ -197,21 +263,10 @@ function RegistrationForm() {
                         </i>
                     </div> 
                 </div>
-            </div>
-
-            <div>
-
-            {failedSubmit &&
-                <div> 
-                    <h2>something went wrong</h2>
                 </div>
-            }
-
-             
+                <div className='registrationSubmit'>
+                <button>Submit</button>
             </div>
-
-            <div className='registrationSubmit'>
-                <button  onSubmit={() => onsubmit()}>Submit</button>
             </div>
         </form>
       </div>
