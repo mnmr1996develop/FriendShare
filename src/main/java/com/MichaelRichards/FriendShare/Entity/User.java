@@ -8,13 +8,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.List;
 
 
 @Entity
@@ -55,6 +57,7 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @Email
     @NotNull
     @Column(name = "email")
     private String email;
@@ -89,17 +92,15 @@ public class User implements UserDetails {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Authority> authorities;
+
     @Transient
     @Setter(value = AccessLevel.NONE)
     private Long age;
 
     public Long getAge(){
         return ChronoUnit.YEARS.between(birthday ,LocalDate.now());
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
     }
 
     @Override
@@ -125,5 +126,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public boolean addAuthority(Authority authority){
+        if (authorities.isEmpty()){
+            authorities = new ArrayList<>();
+        }
+        if (authorities.contains(authority)){
+            return false;
+        }
+        else {
+            authorities.add(authority);
+            return true;
+        }
     }
 }

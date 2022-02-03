@@ -5,8 +5,11 @@ import com.MichaelRichards.FriendShare.APIResponses.Exception.EmailTakenExceptio
 import com.MichaelRichards.FriendShare.APIResponses.Exception.LoginNotMatchException;
 import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameNotFoundException;
 import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameTakenException;
+import com.MichaelRichards.FriendShare.DAO.AuthorityRepository;
 import com.MichaelRichards.FriendShare.DAO.UserRepository;
+import com.MichaelRichards.FriendShare.Entity.Authority;
 import com.MichaelRichards.FriendShare.Entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,22 +19,24 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 
-@Service
+@Service @Slf4j @Transactional
 public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
+    private AuthorityRepository authorityRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username)  {
-        return userRepository.findByUsername(username).orElse(null);
+        return findUserByUsername(username);
     }
 
     public List<User> findAll(){
@@ -65,7 +70,7 @@ public class UserService implements UserDetailsService {
             throw new EmailTakenException(user.getEmail());
         }
         else {
-            throw new EmailTakenException(user.getUsername());
+            throw new UsernameTakenException(user.getUsername());
         }
     }
 
@@ -82,7 +87,7 @@ public class UserService implements UserDetailsService {
         return  userRepository.findById(id).orElse(null);
     }
 
-    @Transactional
+
     public ResponseEntity<User> updateUserByUsername(String username, String firstName, String lastName, String email, String Uname, String password, Boolean isAccountNonLocked, Boolean isAccountNonExpired, Boolean isCredentialsNonExpired, Boolean enabled) {
 
         User user = userRepository.findByUsername(username).orElseThrow(
@@ -189,16 +194,14 @@ public class UserService implements UserDetailsService {
         return letter.matcher(string).find();
     }
 
-    public User login(String username, String password) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () ->
-                        new LoginNotMatchException(username, password)
-        );
-
-        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
-            throw new LoginNotMatchException(username, password);
-        }
-
-        return user;
+    public Authority saveAuthority(Authority authority) {
+        return authorityRepository.save(authority);
     }
+
+    public void addAuthorityToUser(String username, String authority){
+        User user = findUserByUsername(username);
+        Authority authority1 = authorityRepository.findByAuthority(authority);
+        user.addAuthority(authority1);
+    }
+
 }
