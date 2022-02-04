@@ -20,8 +20,8 @@ public class AuthorityController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<Authority> saveRole(@RequestBody Authority authority){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/role/user").toUriString());
+    public ResponseEntity<Authority> saveAuthority(@RequestBody Authority authority){
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/authority/user").toUriString());
         return ResponseEntity.created(uri).body(userService.saveAuthority(authority));
     }
 

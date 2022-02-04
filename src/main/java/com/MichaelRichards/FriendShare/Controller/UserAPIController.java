@@ -60,6 +60,18 @@ public class UserAPIController {
         userService.updateUserByUsername(username,firstName, lastName, email, Uname ,password, isAccountNonLocked, isAccountNonExpired, isCredentialsNonExpired, enabled);
     }
 
+    @PostMapping("friends/add")
+    public ResponseEntity<List<User>> addFriend(@RequestParam String username, @RequestParam String friend) throws Exception{
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends/add").toUriString());
+        return ResponseEntity.created(uri).body(userService.addFriend(username, friend));
+    }
+
+    @GetMapping("friends/")
+    public ResponseEntity<List<User>> getFriends(@RequestParam String username) throws Exception{
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends/").toUriString());
+        return ResponseEntity.created(uri).body(userService.findUserByUsername(username).getFriends());
+    }
+
 
 
 

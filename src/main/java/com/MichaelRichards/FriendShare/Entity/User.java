@@ -2,6 +2,7 @@ package com.MichaelRichards.FriendShare.Entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -99,6 +100,13 @@ public class User implements UserDetails {
     @Setter(value = AccessLevel.NONE)
     private Long age;
 
+    @OneToMany()
+    private List<Post> posts;
+
+    @JsonIgnore
+    @ManyToMany
+    private List<User> friends;
+
     public Long getAge(){
         return ChronoUnit.YEARS.between(birthday ,LocalDate.now());
     }
@@ -139,5 +147,19 @@ public class User implements UserDetails {
             authorities.add(authority);
             return true;
         }
+    }
+
+    public void addPost(Post post){
+        if (posts.isEmpty()){
+            posts = new ArrayList<>();
+        }
+        posts.add(post);
+    }
+
+    public void addFriend(User user){
+        if(friends.isEmpty()){
+            friends = new ArrayList<>();
+        }
+        friends.add(user);
     }
 }

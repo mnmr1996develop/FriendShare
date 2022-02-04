@@ -204,4 +204,16 @@ public class UserService implements UserDetailsService {
         user.addAuthority(authority1);
     }
 
+    public List<User> addFriend(String username, String friendName){
+        User user = findUserByUsername(username);
+        User friend = findUserByUsername(friendName);
+        user.addFriend(friend);
+        friend.addFriend(user);
+        ArrayList<User> friendPair = new ArrayList<>();
+        friendPair.add(user);
+        friendPair.add(friend);
+        return friendPair;
+
+    }
+
 }
