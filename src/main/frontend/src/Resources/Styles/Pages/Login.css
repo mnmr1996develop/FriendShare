@@ -1,10 +1,10 @@
 .login-page {
     height: 93vh;
     display: flex;
-    justify-content: center
+    justify-content: center;
 }
 
-.login-element{
+.login-element {
     width: 80%;
     margin-top: 120px;
     height: 350px;
@@ -17,49 +17,57 @@
     border-style: solid;
 }
 
-.login-text{
+.login-text {
     width: 50%;
     display: inline;
-    text-align : center;
+    text-align: center;
     padding-top: 30px;
+    background-color: blueviolet;
 }
 
-.login-text h3{
+.login-text h3 {
     color: black;
 }
 
-
-.login-functions{
+.login-functions {
     width: 50%;
-    background-color: blueviolet;
+
     display: block;
     justify-content: center;
 }
 
-.login-inputs{
+.login-inputs {
     display: block;
     width: 65%;
 }
 
-.login-input{
-    
+.login-input {
     margin-top: 25px;
     width: 100%;
 }
 
-.login-input input{
+.login-input input {
     width: 100%;
 
     border-radius: 3px;
 }
 
 @media screen and (max-width: 600px) {
-    .login-text{
-        display: none;
+    .login-element {
+        display: inline;
+        background-color: blanchedalmond;
     }
 
-    .login-functions{
-       
-        width: 100%
+    .login-text {
+        background-color: blue;
+        display: block;
+        height: 50%;
+        width: 100%;
+    }
+
+    .login-functions {
+        background-color: blue;
+        height: 50%;
+        width: 100%;
     }
 }

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 function Friends() {
     return (
-        <div className='Friends'>
+        <div className="Friends">
             <h1>Friends</h1>
         </div>
     );
-  }
+}
 
 export default Friends;

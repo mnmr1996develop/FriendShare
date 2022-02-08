@@ -13,7 +13,6 @@
     color: rgb(72, 211, 134);
 }
 
-
 .RegistrationForm form {
     background-color: white;
     border-radius: 2%;
@@ -25,24 +24,23 @@
     font-size: 20px;
     padding: 2%;
     height: 60%;
-    font-size: 80%
+    font-size: 80%;
 }
 
-.top{
+.top {
     height: 18%;
     display: flex;
 }
 
-.input-holder{
-  
+.input-holder {
     height: 52%;
 }
 
-.registation-bottom{
+.registation-bottom {
     height: 30%;
 }
 
-.lettering{
+.lettering {
     width: 90%;
     height: 100%;
 }
@@ -63,91 +61,89 @@
     margin-top: 10px;
 }
 
-.input-box input{
+.input-box input {
     font-size: medium;
     width: 95%;
-    height: 70%
+    height: 70%;
 }
 
-.input-box-half{
-    
+.input-box-half {
     height: 20%;
 }
 
-.input-box{
-    height: 20%
+.input-box {
+    height: 20%;
 }
 
-.input-box-half input{
+.input-box-half input {
     margin-right: 3px;
     width: 46.5%;
-    height: 70%
-    
+    height: 70%;
 }
 
-
-.Registration-Password{
+.Registration-Password {
     display: flex;
     height: 40%;
-    
-    
 }
 
-.registrationSubmit{
+.registrationSubmit {
     display: flex;
     justify-content: center;
     height: 60%;
-   
+
     align-items: center;
 }
 
-.registrationSubmit button{
+.registrationSubmit button {
     height: 40%;
-    width:  30%;
+    width: 30%;
     background-color: rgb(153, 152, 152);
     border-radius: 3px;
     transition: 250ms;
 }
 
-.registrationSubmit button:hover{
+.registrationSubmit button:hover {
     color: white;
     background-color: mediumseagreen;
 }
 
-
-.password-checklist{
+.password-checklist {
     display: block;
     text-align: center;
     width: 14.25%;
-    
+
     height: 40px;
     font-size: 80%;
 }
 
-
-
-
 li {
     list-style: none;
 }
-
 
 @media only screen and (max-width: 1000px) {
     .RegistrationForm {
         width: 100%;
         justify-content: center;
     }
-  }
+}
 
-  @media only screen and (max-width: 250px) {
-
-    .input-box{
+@media only screen and (max-width: 250px) {
+    .input-box {
         display: block;
     }
 
-    .input-box-half input{
-       
+    .input-box-half input {
         width: 100%;
-        height: 70%
+        height: 70%;
     }
-  }
+
+    .input-box-half {
+        height: 14.2%;
+    }
+}
+
+@media screen and (max-height: 800px) {
+    .RegistrationForm form {
+        height: 500px;
+    }
+}
