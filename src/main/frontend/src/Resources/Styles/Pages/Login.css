@@ -1,65 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Comforter&family=Oswald&display=swap');
+
 .login-page {
-    height: 93vh;
+    height: 100vh;
+
     display: flex;
     justify-content: center;
 }
 
 .login-element {
-    width: 80%;
     margin-top: 120px;
-    height: 350px;
-    background-color: white;
+    height: 500px;
+
     display: flex;
     color: rgb(72, 211, 134);
     border-radius: 10px;
     border-width: 3px;
-    border-color: rgb(72, 211, 134);
-    border-style: solid;
+    padding: 2em 6em;
 }
 
 .login-text {
     width: 50%;
     display: inline;
     text-align: center;
-    padding-top: 30px;
-    background-color: blueviolet;
+    padding: 3rem;
+}
+
+.login-text h1 {
+    font-family: "Comforter", cursive;
+    font-size: 3rem;
 }
 
 .login-text h3 {
-    color: black;
+    color: white;
 }
 
 .login-functions {
     width: 50%;
-
     display: block;
     justify-content: center;
 }
 
-.login-inputs {
-    display: block;
-    width: 65%;
+.failure {
+    background-color: red;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
 }
 
-.login-input {
-    margin-top: 25px;
+.signup-button {
+    padding-top: 2rem;
+    text-align: center;
+    
+}
+
+.signup-button button{
+    color: wheat;
+    background-color: rgb(0, 132, 255);
+    width: 60%;
+    padding: .75rem 0;
+    font-size: medium;
+    font-family: "Comforter", cursive;
+    border-radius: .2rem;
+}
+
+.login-inputs {
+    margin-top: 4rem;
+    display: block;
+    height: 40%;
+    padding-top: 1rem;
     width: 100%;
+}
+
+.login-button {
+    padding-top: 4rem;
+    text-align: center;
+}
+
+.login-button button {
+    font-family: "Comforter", cursive;
+    background-color: rgb(56, 223, 131);
+    color: white;
+    font-size: 1.6rem;
+    width: 100%;
+    padding: 0.3rem;
+    border-radius: 0.2rem;
 }
 
 .login-input input {
-    width: 100%;
-
-    border-radius: 3px;
+    margin-top: 1rem;
+    width: 96.5%;
+    height: 3rem;
+    padding-left: 1rem;
+    border-radius: 0.2rem;
+    border-color: white;
 }
 
-@media screen and (max-width: 600px) {
+.login-input input:focus {
+    outline: 1.5px solid rgb(72, 211, 134);
+}
+
+@media screen and (max-width: 768px) {
     .login-element {
-        display: inline;
-        background-color: blanchedalmond;
+        display: block;
+        margin-top: 0;
     }
 
-    .login-text {
-        background-color: blue;
+    .login-functions{
+        padding-top: 0;
+        width: 100%;
+        
+    }
+
+    /* .login-text {
+        
         display: block;
         height: 50%;
         width: 100%;
@@ -69,5 +122,5 @@
         background-color: blue;
         height: 50%;
         width: 100%;
-    }
+    } */
 }

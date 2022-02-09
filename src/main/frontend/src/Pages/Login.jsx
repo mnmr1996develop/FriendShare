@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { useState } from "react/cjs/react.development";
 import "../Resources/Styles/Pages/Login.css";
 import { useNavigate } from "react-router-dom";
-import UserService from "../Services/UserService";
 import AuthContext from "../Context/AuthContext";
 
 function Login() {
@@ -30,53 +29,60 @@ function Login() {
         <div className="login-page">
             <div className="login-element">
                 <div className="login-text">
-                    <h1>FriendShare</h1>
-                    <h3>
-                        Connect with all of your friends and share your memories
-                    </h3>
+                    <div>
+                        <h1>FriendShare</h1>
+                        <h3>
+                            Connect with all of your friends and share your
+                            memories with us as we definetly don't collect and
+                            share all of your data for profits wink wink nudge
+                            nudge
+                        </h3>
+                    </div>
                 </div>
                 <div className="login-functions">
                     {loginFail && (
-                        <div>
-                            <h1>Invalid</h1>
+                        <div className="failure">
+                            <h1>Bad Username Or Password</h1>
                         </div>
                     )}
-                    <form className="login-inputs" onSubmit={handleSubmit}>
-                        <div className="login-input">
-                            <input
-                                name="username"
-                                value={username}
-                                type="text"
-                                onChange={(e) =>
-                                    setUsername(
-                                        e.target.value
-                                            .trim()
-                                            .replace(/[^\w_-]/gi, "")
-                                    )
-                                }
-                                placeholder="Username"
-                            />
-                        </div>
+                    <div className="form">
+                        <form className="login-inputs" onSubmit={handleSubmit}>
+                            <div className="login-input">
+                                <input
+                                    name="username"
+                                    value={username}
+                                    type="text"
+                                    onChange={(e) =>
+                                        setUsername(
+                                            e.target.value
+                                                .trim()
+                                                .replace(/[^\w_-]/gi, "")
+                                        )
+                                    }
+                                    placeholder="Username"
+                                />
+                            </div>
 
-                        <div className="login-input">
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                value={password}
-                                onChange={(e) => {
-                                    setPassword(e.target.value.trim());
-                                }}
-                                placeholder="Password"
-                            />
-                        </div>
+                            <div className="login-input">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => {
+                                        setPassword(e.target.value.trim());
+                                    }}
+                                    placeholder="Password"
+                                />
+                            </div>
 
-                        <div className="login-input">
-                            <button>Login</button>
-                        </div>
-                    </form>
-                    <div className="">
-                        <button onClick={routeChange}> Sign Up</button>
+                            <div className="login-button">
+                                <button>Login</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="signup-button">
+                        <button onClick={routeChange}> Create an Account</button>
                     </div>
                 </div>
             </div>
