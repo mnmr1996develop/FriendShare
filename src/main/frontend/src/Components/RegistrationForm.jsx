@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react/cjs/react.development";
 import UserService from "../Services/UserService";
 import { usePasswordValidation } from "../Hooks/usePasswordValidation";
@@ -6,6 +6,7 @@ import "../Resources/Styles/Components/RegistrationForm.css";
 import { faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../Context/AuthContext";
 
 function RegistrationForm() {
     const [firstName, setFirstName] = useState("");
@@ -16,6 +17,8 @@ function RegistrationForm() {
     const [retypePassword, setRetypePassword] = useState("");
     const [birthday, setBirthday] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    let {contextData: {setLoginFail}} = useContext(AuthContext);
+
     const [validLength, hasNumber, upperCase, lowerCase, specialChar] =
         usePasswordValidation({
             password: password,
@@ -30,6 +33,7 @@ function RegistrationForm() {
     const navigate = useNavigate();
 
     const routeChange = () => {
+        setLoginFail(false);
         navigate("/");
     };
 

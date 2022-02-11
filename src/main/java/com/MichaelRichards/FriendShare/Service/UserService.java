@@ -2,16 +2,15 @@ package com.MichaelRichards.FriendShare.Service;
 
 
 import com.MichaelRichards.FriendShare.APIResponses.Exception.EmailTakenException;
-import com.MichaelRichards.FriendShare.APIResponses.Exception.LoginNotMatchException;
 import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameNotFoundException;
 import com.MichaelRichards.FriendShare.APIResponses.Exception.UsernameTakenException;
 import com.MichaelRichards.FriendShare.DAO.AuthorityRepository;
 import com.MichaelRichards.FriendShare.DAO.UserRepository;
 import com.MichaelRichards.FriendShare.Entity.Authority;
+import com.MichaelRichards.FriendShare.Entity.Post;
 import com.MichaelRichards.FriendShare.Entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +29,7 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private AuthorityRepository authorityRepository;
+
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -54,6 +54,16 @@ public class UserService implements UserDetailsService {
         );
     }
 
+    public List<Post> findFriendPosts(String username){
+        List<User> friends = findUserByUsername(username).getFriends();
+        List<Post> posts = new ArrayList<>();
+
+        for(User user: friends){
+            posts.addAll(user.getPosts());
+        }
+        return posts;
+    }
+
     public User saveUser(User user){
 
         boolean isUsernameTaken = userRepository.findByUsername(user.getUsername()).isPresent();
@@ -63,7 +73,6 @@ public class UserService implements UserDetailsService {
         if(!isEmailTaken && !isUsernameTaken) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-//            return GoodUserRequest.accountSaved(user);
             return user;
         }
         else if(isEmailTaken){
@@ -88,7 +97,7 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public ResponseEntity<User> updateUserByUsername(String username, String firstName, String lastName, String email, String Uname, String password, Boolean isAccountNonLocked, Boolean isAccountNonExpired, Boolean isCredentialsNonExpired, Boolean enabled) {
+    public User updateUserByUsername(String username, String firstName, String lastName, String email, String Uname, String password, Boolean isAccountNonLocked, Boolean isAccountNonExpired, Boolean isCredentialsNonExpired, Boolean enabled) {
 
         User user = userRepository.findByUsername(username).orElseThrow(
                 () ->
@@ -171,7 +180,7 @@ public class UserService implements UserDetailsService {
         if(isCredentialsNonExpired != null && isCredentialsNonExpired != user.isCredentialsNonExpired()){
             user.setCredentialsNonExpired(isCredentialsNonExpired);
         }
-        return ResponseEntity.accepted().body(user);
+        return user;
     }
 
     private Boolean specialCharacterChecker(String string){

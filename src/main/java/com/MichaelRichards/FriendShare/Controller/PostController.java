@@ -16,7 +16,7 @@ public class PostController {
     @Autowired
     private UserPostService userPostService;
 
-    @PostMapping("/{username}/posts")
+    @PostMapping("/{username}/post")
     public ResponseEntity<Post> addPostToUser(@PathVariable String username, @RequestBody TextNode status){
         return ResponseEntity.ok().body(userPostService.addPost(username , status.asText()));
     }
@@ -24,6 +24,17 @@ public class PostController {
     @GetMapping("/{username}/posts")
     public ResponseEntity<List<Post>> getUsersPost(@PathVariable String username){
         return ResponseEntity.ok().body(userPostService.getUsersPost(username));
+    }
+
+    @GetMapping("/{username}/posts/{id}")
+    public ResponseEntity<Post> getUsersPost(@PathVariable String username, @PathVariable Long id){
+        return ResponseEntity.ok().body(userPostService.findUserPostById(username, id));
+    }
+
+    @DeleteMapping("/{username}/posts/{id}")
+    public ResponseEntity<String> deleteUsersPost(@PathVariable String username, @PathVariable Long id){
+        userPostService.deletePostById(username, id);
+        return ResponseEntity.ok().body("Deleted post with id " + id);
     }
 
 }

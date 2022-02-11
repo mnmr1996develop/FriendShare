@@ -1,0 +1,45 @@
+.postForm{
+    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.postForm form {
+    margin-top: 0;
+    padding: 1ch;
+    height: 200px;
+    width: 40%;
+    display: block;
+}
+
+.postText{
+    height: 75%;
+}
+
+.postForm textarea {
+    padding: 1ch;
+    width: 94%;
+    height: 80%;
+    border-radius: .3rem;
+    resize: none;
+    font-size: medium;
+}
+
+.postFormSubmit{
+    width: 100%;
+    background-color: aquamarine;
+}
+
+/* .postFormSubmit{
+    background-color: black;
+    width: 590%;
+}
+
+.postFormSubmit button{
+    width: 100%;
+} */
+
+@media screen and (max-width: 768px) {
+    
+}

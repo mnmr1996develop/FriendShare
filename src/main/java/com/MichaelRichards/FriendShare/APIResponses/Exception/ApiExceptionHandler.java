@@ -77,4 +77,15 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(apiException, badRequest);
     }
 
+    @ExceptionHandler(value = {PostNotFoundException.class})
+    public ResponseEntity<Object> handleApiRequestException(PostNotFoundException exception){
+        HttpStatus notFound = HttpStatus.NOT_FOUND;
+        ApiException apiException=  new ApiException(
+                notFound,
+                exception.getMessage(),
+                "POST_NOT_FOUND",
+                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+        );
+        return new ResponseEntity<>(apiException, notFound);
+    }
 }

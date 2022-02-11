@@ -1,10 +1,11 @@
 import React from "react";
+import PostComponent from "../Components/PostComponent";
 import "../Resources/Styles/Pages/Home.css";
 
 function Home() {
     return (
         <div className="Home">
-            <h1>Home</h1>
+            <PostComponent />
         </div>
     );
 }

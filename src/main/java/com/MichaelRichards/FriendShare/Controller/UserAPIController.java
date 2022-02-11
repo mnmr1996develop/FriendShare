@@ -3,7 +3,6 @@ package com.MichaelRichards.FriendShare.Controller;
 
 import com.MichaelRichards.FriendShare.Entity.User;
 import com.MichaelRichards.FriendShare.Service.UserService;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ public class UserAPIController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping
     public ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.status(HttpStatus.OK).body((new ArrayList<>(userService.findAll())));
@@ -42,12 +40,12 @@ public class UserAPIController {
 
 
     @DeleteMapping(path= "{username}")
-    public void deleteUser(@PathVariable("username") String username) throws Exception{
-        userService.deleteUserByUsername(username);
+    public ResponseEntity<String> deleteUser(@PathVariable("username") String username) throws Exception{
+        return ResponseEntity.ok().body(username);
     }
 
     @PutMapping("/{username}")
-    public void getUser(@PathVariable String username,
+    public ResponseEntity<User> getUser(@PathVariable String username,
                         @RequestParam(required = false) String firstName,
                         @RequestParam(required = false) String lastName,
                         @RequestParam(required = false) String email,
@@ -57,19 +55,20 @@ public class UserAPIController {
                         @RequestParam(required = false) Boolean isAccountNonExpired,
                         @RequestParam(required = false) Boolean isCredentialsNonExpired,
                         @RequestParam(required = false) Boolean enabled) throws Exception{
-        userService.updateUserByUsername(username,firstName, lastName, email, Uname ,password, isAccountNonLocked, isAccountNonExpired, isCredentialsNonExpired, enabled);
+        User user = userService.updateUserByUsername(username,firstName, lastName, email, Uname ,password, isAccountNonLocked, isAccountNonExpired, isCredentialsNonExpired, enabled);
+        return ResponseEntity.ok().body(user);
     }
 
-    @PostMapping("friends/add")
-    public ResponseEntity<List<User>> addFriend(@RequestParam String username, @RequestParam String friend) throws Exception{
+    @PostMapping("{username}/friends/add")
+    public ResponseEntity<List<User>> addFriend( @PathVariable("username") String username, @RequestParam String friend) throws Exception{
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends/add").toUriString());
-        return ResponseEntity.created(uri).body(userService.addFriend(username, friend));
+        return ResponseEntity.ok().body(userService.addFriend(username, friend));
     }
 
-    @GetMapping("friends/")
-    public ResponseEntity<List<User>> getFriends(@RequestParam String username) throws Exception{
+    @GetMapping("{username}/friends/")
+    public ResponseEntity<List<User>> getFriends(@PathVariable("username") String username) throws Exception{
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends/").toUriString());
-        return ResponseEntity.created(uri).body(userService.findUserByUsername(username).getFriends());
+        return ResponseEntity.ok().body(userService.findUserByUsername(username).getFriends());
     }
 
 

@@ -19,6 +19,7 @@ public class Post {
     public Post(User user, String status) {
         this.user = user;
         this.status = status;
+        this.localDateTime = LocalDateTime.now();
     }
 
     @Id
@@ -27,7 +28,7 @@ public class Post {
 
     private LocalDateTime localDateTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JsonIgnore
     private User user;
 

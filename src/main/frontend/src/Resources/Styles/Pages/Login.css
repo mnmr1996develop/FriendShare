@@ -111,16 +111,11 @@
         
     }
 
-    /* .login-text {
-        
-        display: block;
-        height: 50%;
-        width: 100%;
+    .login-inputs {
+        margin-top: .5rem;     
     }
 
-    .login-functions {
-        background-color: blue;
-        height: 50%;
-        width: 100%;
-    } */
+    .failure {
+        font-size: 10px;
+    }
 }

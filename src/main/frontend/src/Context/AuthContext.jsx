@@ -36,13 +36,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     let loginUser = async (username, password) => {
-        const params = new URLSearchParams();
-        params.append("username", username);
-        params.append("password", password);
-        axios
-            .post("http://localhost:8080/login", params)
+        UserService.login(username, password)
             .then((res) => {
-                setUser(jwtDecode(res.data.access_token).sub);
+                setUser(jwtDecode(res.data.access_token));
                 setAuthToken(res.data);
                 localStorage.setItem("authTokens", JSON.stringify(res.data));
                 setIsLoggedIn(true);
@@ -56,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     let contextData = {
+        setLoginFail:setLoginFail,
         isLoggedIn: isLoggedIn,
         logout: logout,
         loginFail: loginFail,

@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 public class Authority implements GrantedAuthority {
+
     public Authority(String authority) {
         this.authority = authority;
     }
@@ -26,4 +27,7 @@ public class Authority implements GrantedAuthority {
 
     @NotNull
     private String authority;
+
 }
+
+

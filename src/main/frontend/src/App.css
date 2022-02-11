@@ -11,3 +11,19 @@ body {
     top: 0;
     position: sticky;
 }
+
+
+::-webkit-scrollbar {
+    width: .3rem;
+}
+
+::-webkit-scrollbar-track{
+    
+    border-radius: 100vw;
+    margin-block-start: .5em;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(72, 211, 134);
+    border-radius: 100vw;
+}

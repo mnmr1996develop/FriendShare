@@ -6,28 +6,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @EqualsAndHashCode
+@NoArgsConstructor
 @Table(name = "Users")
 public class User implements UserDetails {
+
+
 
 
     public User(String firstName, String lastName, String email, String username, String password, Boolean accountNonLocked, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean enabled, LocalDate birthday) {
@@ -36,9 +36,9 @@ public class User implements UserDetails {
         this.email = email;
         this.username = username;
         this.password = password;
-        AccountNonLocked = accountNonLocked;
-        AccountNonExpired = accountNonExpired;
-        CredentialsNonExpired = credentialsNonExpired;
+        this.AccountNonLocked = accountNonLocked;
+        this.AccountNonExpired = accountNonExpired;
+        this.CredentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
         this.birthday = birthday;
         this.age = getAge();
@@ -100,11 +100,17 @@ public class User implements UserDetails {
     @Setter(value = AccessLevel.NONE)
     private Long age;
 
-    @OneToMany()
+    @OneToMany
+    @JsonIgnore
     private List<Post> posts;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_information_id")
+    private UserInformation userInformation = new UserInformation(getFirstName(), "");
+
+
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     private List<User> friends;
 
     public Long getAge(){
@@ -160,6 +166,13 @@ public class User implements UserDetails {
         if(friends.isEmpty()){
             friends = new ArrayList<>();
         }
+        if(friends.contains(user)){
+            return;
+        }
         friends.add(user);
+    }
+
+    public void deletePost(Long id) {
+        posts.removeIf(post -> Objects.equals(post.getId(), id));
     }
 }
