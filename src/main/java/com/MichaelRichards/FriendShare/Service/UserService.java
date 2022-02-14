@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -55,12 +56,18 @@ public class UserService implements UserDetailsService {
     }
 
     public List<Post> findFriendPosts(String username){
-        List<User> friends = findUserByUsername(username).getFriends();
+        User user = findUserByUsername(username);
+        List<User> friends = user.getFriends();
         List<Post> posts = new ArrayList<>();
 
-        for(User user: friends){
-            posts.addAll(user.getPosts());
+        for(User friend: friends){
+            posts.addAll(friend.getPosts());
         }
+
+        posts.addAll(user.getPosts());
+
+        posts.sort((Post p1, Post p2) -> (int)ChronoUnit.SECONDS.between(p1.getLocalDateTime(), p2.getLocalDateTime()));
+
         return posts;
     }
 
@@ -223,6 +230,10 @@ public class UserService implements UserDetailsService {
         friendPair.add(friend);
         return friendPair;
 
+    }
+
+    public List<User> searchUsers(String keyword){
+        return userRepository.search(keyword);
     }
 
 }

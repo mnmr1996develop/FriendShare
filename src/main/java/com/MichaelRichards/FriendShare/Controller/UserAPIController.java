@@ -59,6 +59,11 @@ public class UserAPIController {
         return ResponseEntity.ok().body(user);
     }
 
+    @GetMapping("/{keyword}/search")
+    public ResponseEntity<List<User>> findUsers(@PathVariable String keyword){
+        return ResponseEntity.ok().body(userService.searchUsers(keyword));
+    }
+
     @PostMapping("{username}/friends/add")
     public ResponseEntity<List<User>> addFriend( @PathVariable("username") String username, @RequestParam String friend) throws Exception{
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends/add").toUriString());

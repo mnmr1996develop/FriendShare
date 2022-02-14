@@ -68,11 +68,5 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         out.print(object);
         out.flush();
 
-
-
-
-
-//        response.setHeader("access_token", access_token);
-//        response.setHeader("refresh_token",refresh_token);
     }
 }

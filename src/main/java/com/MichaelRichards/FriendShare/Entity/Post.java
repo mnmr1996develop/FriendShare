@@ -29,7 +29,6 @@ public class Post {
     private LocalDateTime localDateTime;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JsonIgnore
     private User user;
 
     @NotNull

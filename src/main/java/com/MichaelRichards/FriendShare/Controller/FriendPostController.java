@@ -1,7 +1,6 @@
 package com.MichaelRichards.FriendShare.Controller;
 
 import com.MichaelRichards.FriendShare.Entity.Post;
-import com.MichaelRichards.FriendShare.Entity.User;
 import com.MichaelRichards.FriendShare.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
