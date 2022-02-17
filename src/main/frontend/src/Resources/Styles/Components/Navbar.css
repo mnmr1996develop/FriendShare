@@ -134,6 +134,10 @@ form {
     font-family: 'Comforter', cursive;
 }
 
+#signout:hover {
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 990px) {
     .navbar {
         position: relative;
@@ -190,6 +194,8 @@ form {
     .menu-condensed {
         display: none;
     }
+
+    
 }
 
 @media screen and (max-width: 400px) {

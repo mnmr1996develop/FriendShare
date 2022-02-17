@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import AuthContext from "../Context/AuthContext";
+import UserService from "../Services/UserService";
 
 function Navbar() {
     library.add(faBars);
@@ -14,9 +15,25 @@ function Navbar() {
     var handleNavClick = () => setNavClick(!navClick);
 
     const [search, setSearch] = useState("");
+    const [usersFound, setUsersFound] = useState([]);
 
-    var onSubmit = () => {
-        console.log(search);
+    var getSearchRequest = (item) => {
+        return UserService.userSearch(item).then((res) => {
+            return res.data;
+        });
+    };
+
+    var onSubmit = async (e) => {
+        e.preventDefault();
+        setUsersFound([]);
+        if (!!search) {
+            const stringArray = search.split(" ");
+            console.log(stringArray);
+
+            let user = await getSearchRequest(stringArray[0]);
+            setUsersFound(user);
+            console.log(usersFound);
+        }
     };
 
     let {
@@ -85,10 +102,10 @@ function Navbar() {
                             </li>
                             <li className="nav-item">
                                 <NavLink to="/Settings" className="nav-links">
-                                    Settings
+                                    Notifications
                                 </NavLink>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item" id="signout">
                                 <div className="nav-links" onClick={logout}>
                                     Sign Out
                                 </div>

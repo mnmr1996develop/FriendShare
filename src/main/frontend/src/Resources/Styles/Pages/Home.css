@@ -1,4 +1,38 @@
 .Home {
+    margin-top: 10px;
+}
+
+.Home-row {
     display: flex;
-    justify-content: left;
+}
+
+.Home-:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+.Home-main {
+    width: 75%;
+    float: right;
+    
+}
+
+.Home-freinds{
+    width: 25%;
+    background-color: white;
+}
+
+@media screen and (max-width: 1300px) {
+    .Home-main {
+        width: 100%;
+        float: center;
+        
+    }
+
+    .Home-freinds{
+       display: none;
+    }
+    
 }

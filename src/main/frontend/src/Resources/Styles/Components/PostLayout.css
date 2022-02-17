@@ -1,0 +1,14 @@
+.singlePost{
+    border-width: 2px;
+    margin-bottom: 5px;
+    min-height: 100px;
+    border-radius: .3rem;
+    overflow-wrap: break-word;
+    font-size: 1.2rem;
+    hyphens: manual;
+}
+
+
+.singlePost p{
+    color: white;
+}

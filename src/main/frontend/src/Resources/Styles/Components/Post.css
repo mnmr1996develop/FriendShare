@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Comforter&display=swap');
+
 .postForm{
     
     width: 100%;
@@ -11,10 +13,12 @@
     height: 200px;
     width: 40%;
     display: block;
+
 }
 
 .postText{
     height: 75%;
+    text-align: center;
 }
 
 .postForm textarea {
@@ -26,20 +30,26 @@
     font-size: medium;
 }
 
-.postFormSubmit{
+#postFormSubmit{
     width: 100%;
-    background-color: aquamarine;
+    
+    text-align: center;
 }
 
-/* .postFormSubmit{
-    background-color: black;
-    width: 590%;
+#postFormSubmit button{
+    height: 40px;
+    width: 200px;
+    background-color: green;
+    border-radius: .4rem;
+    color: white;
+    font-size: large;
+    font-family: 'Comforter', cursive;
 }
-
-.postFormSubmit button{
-    width: 100%;
-} */
 
 @media screen and (max-width: 768px) {
-    
+    .postForm form {
+        
+        width: 100%;
+
+    }
 }
