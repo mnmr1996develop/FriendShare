@@ -186,6 +186,7 @@ function RegistrationForm() {
                                 );
                             }}
                             placeholder="First Name"
+                            required
                         />
                         <input
                             name="lastName"
@@ -199,6 +200,7 @@ function RegistrationForm() {
                                 );
                             }}
                             placeholder="Last Name"
+                            required
                         />
                     </div>
 
@@ -211,6 +213,7 @@ function RegistrationForm() {
                                 setEmail(e.target.value.trim());
                             }}
                             placeholder="Email"
+                            required
                         />
                         {emailTaken && (
                             <h6 style={{ color: "red" }}>Email Taken</h6>
@@ -230,6 +233,7 @@ function RegistrationForm() {
                                 )
                             }
                             placeholder="Username"
+                            required
                         />
                         {userTaken && (
                             <h6 style={{ color: "red" }}>Username Taken</h6>
@@ -242,6 +246,7 @@ function RegistrationForm() {
                             value={birthday}
                             name="birthday"
                             onChange={(e) => setBirthday(e.target.value)}
+                            required
                         />
                     </div>
 
@@ -255,6 +260,7 @@ function RegistrationForm() {
                                 setPassword(e.target.value.trim());
                             }}
                             placeholder="Password"
+                            required
                         />
                         <input
                             id="repassword"
@@ -265,6 +271,7 @@ function RegistrationForm() {
                                 setRetypePassword(e.target.value.trim());
                             }}
                             placeholder="Retype Password"
+                            required
                         />
                     </div>
                 </div>

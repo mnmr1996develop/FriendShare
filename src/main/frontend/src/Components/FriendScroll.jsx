@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import UserService from "../Services/UserService";
 import AuthContext from "../Context/AuthContext";
+import "../Resources/Styles/Components/FriendScroll.css";
 
 const FriendScroll = () => {
     const [myFriends, setMyFriends] = useState([]);
@@ -16,22 +17,22 @@ const FriendScroll = () => {
     }, []);
 
     return (
-        <>
-            <h1>My Friends</h1>
+        <div className="Friend-scroll">
+            <h1>
+                Friends <input></input>
+            </h1>
             {myFriends.map((friend) => {
                 return (
-                    <div>
-                        <h1>username: {friend.username}</h1>
+                    <div className="friend" key={friend.id}>
+                        <h2>@{friend.username}</h2>
                         <h2>
-                            name: {friend.firstName} {friend.lastName}
+                            {friend.firstName} {friend.lastName}
                         </h2>
                         <h2>birthday: {friend.birthday}</h2>
-                        <br />
-                        <br />
                     </div>
                 );
             })}
-        </>
+        </div>
     );
 };
 

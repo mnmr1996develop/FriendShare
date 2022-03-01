@@ -69,4 +69,20 @@ public class UserPostService {
         Post post = findPostById(id);
         postRepository.delete(post);
     }
+
+    public Post likePost(String username, Long id) {
+        Post post = findPostById(id);
+        User user = findUserByUsername(username);
+        if(!post.getLikes().contains(user)){
+            post.addLike(user);
+        }
+        return post;
+    }
+
+    public Post unlikePost(String username, Long id){
+        Post post = findPostById(id);
+        User user = findUserByUsername(username);
+        post.removeLike(user);
+        return post;
+    }
 }

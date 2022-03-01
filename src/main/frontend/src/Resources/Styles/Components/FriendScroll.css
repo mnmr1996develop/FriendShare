@@ -1,0 +1,23 @@
+.Friend-scroll{
+    height: 100%;
+    text-align: center;
+    
+}
+
+.Friend-scroll h1 {
+    color: rgb(72, 211, 134);
+}
+
+.friend{
+    padding-bottom: 10px;
+    margin: 10px;
+    color: white;
+    border-radius: 1rem;
+    background-color: #303030;
+    cursor: pointer;
+}
+
+.friend:hover{
+    background-color: #68686833;
+    transform: translateY(-2px);
+}

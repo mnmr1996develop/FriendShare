@@ -22,6 +22,9 @@ const FriendPost = () => {
         const getPost = () => {
             UserService.friendsPost(user.sub, 1).then((res) => {
                 setPost(res.data);
+                if (res.data.length < 25) {
+                    setHasMore(false);
+                }
             });
         };
         getPost();
@@ -30,7 +33,7 @@ const FriendPost = () => {
     let fetchPost = () => {
         UserService.friendsPost(user.sub, page).then((res) => {
             setPost(post.concat(res.data));
-            if (res.data.length == 10) {
+            if (res.data.length == 25) {
                 setPage(page + 1);
             } else {
                 setHasMore(false);
@@ -49,10 +52,12 @@ const FriendPost = () => {
                 {post.map((post, index) => {
                     return (
                         <PostLayout
-                            user={post.user.username}
+                            id={post.id}
+                            postOwner={post.user}
                             key={index}
                             status={post.status}
                             time={post.localDateTime}
+                            likes={post.likes}
                         ></PostLayout>
                     );
                 })}

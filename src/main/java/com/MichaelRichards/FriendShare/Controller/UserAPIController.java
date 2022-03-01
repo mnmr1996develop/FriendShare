@@ -70,11 +70,38 @@ public class UserAPIController {
         return ResponseEntity.ok().body(userService.addFriend(username, friend));
     }
 
-    @GetMapping("{username}/friends/")
+    @GetMapping("{username}/friends")
     public ResponseEntity<List<User>> getFriends(@PathVariable("username") String username) throws Exception{
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends/").toUriString());
         return ResponseEntity.ok().body(userService.findUserByUsername(username).getFriends());
     }
+
+    @PostMapping("{username}/friendRequest")
+    public ResponseEntity<List<User>> sendFriendRequest( @PathVariable("username") String username, @RequestParam String friend) throws Exception{
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friendRequest").toUriString());
+        return ResponseEntity.ok().body(userService.sendRequest(username, friend));
+    }
+
+    @GetMapping("{username}/friendRequest")
+    public ResponseEntity<List<User>> getFriendRequest(@PathVariable("username") String username) throws Exception{
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friendRequest").toUriString());
+        return ResponseEntity.ok().body(new ArrayList<>(userService.findUserByUsername(username).getRequest()));
+    }
+
+    @DeleteMapping("{username}/friendRequest")
+    public ResponseEntity<List<User>> deleteFriendRequest(@PathVariable("username") String username , @RequestParam String friend) throws Exception{
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friendRequest").toUriString());
+        return ResponseEntity.ok().body(new ArrayList<>(userService.deleteRequest(username, friend)));
+    }
+
+
+
+    @GetMapping("{username}/sentFriendRequest")
+    public ResponseEntity<List<User>> getSentFriendRequest(@PathVariable("username") String username) throws Exception{
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends").toUriString());
+        return ResponseEntity.ok().body(new ArrayList<>(userService.findUserByUsername(username).getSentFriendRequest()));
+    }
+
 
 
 

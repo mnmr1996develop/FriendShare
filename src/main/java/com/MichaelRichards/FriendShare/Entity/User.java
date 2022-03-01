@@ -12,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +24,13 @@ import java.util.Objects;
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
 @Table(name = "Users")
 public class User implements UserDetails {
 
 
-
+    public User() {
+        this.accountCreated = LocalDateTime.now();
+    }
 
     public User(String firstName, String lastName, String email, String username, String password, Boolean accountNonLocked, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean enabled, LocalDate birthday) {
         this.firstName = firstName;
@@ -49,6 +51,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Setter(value = AccessLevel.NONE)
+    private LocalDateTime accountCreated;
 
     @NotNull
     @Column(name = "first_name")
@@ -113,9 +117,18 @@ public class User implements UserDetails {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
     private List<User> friends;
 
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<User> request;
+
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<User> sentFriendRequest;
+
     public Long getAge(){
         return ChronoUnit.YEARS.between(birthday ,LocalDate.now());
     }
+
 
     @Override
     public String getUsername() {
@@ -170,6 +183,30 @@ public class User implements UserDetails {
             return;
         }
         friends.add(user);
+    }
+
+    public void myFriendRequest(User user){
+        if(request.isEmpty()){
+            request = new ArrayList<>();
+        }
+        if(request.contains(user) || friends.contains(user)){
+            return;
+        }
+        request.add(user);
+    }
+
+    public void sentFriendRequest(User user){
+        if(sentFriendRequest.isEmpty()){
+            sentFriendRequest = new ArrayList<>();
+        }
+        if(sentFriendRequest.contains(user) || friends.contains(user)){
+            return;
+        }
+        sentFriendRequest.add(user);
+    }
+
+    public void deleteFriend(User user){
+        friends.remove(user);
     }
 
     public void deletePost(Long id) {

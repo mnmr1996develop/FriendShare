@@ -8,10 +8,14 @@ const USER_POST_API_URL = "http://localhost:8080/api/posts/";
 
 const USER_LOGIN_API_URL = "http://localhost:8080/login";
 
-
 export default class UserService {
     static getUsers = () => {
         return axios.get(USER_REST_API_URL);
+    };
+
+    static getUser = (username) => {
+        const urlString = USER_REST_API_URL + username;
+        return axios.get(urlString);
     };
 
     static addUser = (userdata) => {
@@ -46,24 +50,76 @@ export default class UserService {
     static getFriends = (username) => {
         let urlString = USER_REST_API_URL;
         urlString += username;
-        urlString += "/friends/"
-        console.log(urlString)
-        return axios.get(urlString)
-    }
+        urlString += "/friends/";
+        return axios.get(urlString);
+    };
 
     static friendsPost = (username, pageNumber) => {
         return axios({
-            method: 'GET',
+            method: "GET",
             url: USER_FRIEND_POST_API_URL,
-            params: {username: username, pageNumber: pageNumber}
-        })
-    }
+            params: { username: username, pageNumber: pageNumber },
+        });
+    };
 
     static userSearch = (keyword) => {
         let urlString = USER_REST_API_URL;
         urlString += keyword;
-        urlString += "/search"
-        
-        return axios.get(urlString)
+        urlString += "/search";
+
+        return axios.get(urlString);
+    };
+
+    static sendFriendRequest = (username, friendUsername) => {
+        const params = new URLSearchParams();
+        params.append("friend", friendUsername);
+        let urlString = USER_REST_API_URL + username + "/friendRequest/";
+        return axios({
+            method: "POST",
+            url: urlString,
+            params: { friend: friendUsername },
+        });
+    };
+
+
+    // static deleteFriendRequest = (username, friendUsername) => {
+    //     const params = new URLSearchParams();
+    //     params.append("friend", friendUsername);
+    //     let urlString = USER_REST_API_URL + username + "/friendRequest";
+    //     return axios({
+    //         method: "DELETE",
+    //         url: urlString,
+    //         params: { friend: friendUsername },
+    //     });
+    // };
+
+    static deleteFriendRequest = (username, friendUsername) => {
+        let urlString = USER_REST_API_URL + username + "/friendRequest/?friend=" + friendUsername
+        return axios.delete(urlString)
     }
+
+    
+
+    static myFriendRequest = (username) => {
+        const urlString = USER_REST_API_URL + username + "/friendRequest";
+        return axios.get(urlString);
+    };
+
+    static getMySentFriendRequest = (username) => {
+        const urlString = USER_REST_API_URL + username + "/sentFriendRequest";
+        return axios.get(urlString);
+    };
+
+    static acceptFriendRequest = (username, friendUsername) => {
+        const params = new URLSearchParams();
+        params.append("friend", friendUsername);
+        let urlString = USER_REST_API_URL + username + "/friends/add";
+        return axios({
+            method: "POST",
+            url: urlString,
+            params: { friend: friendUsername },
+        }).then(
+            () => {window.location.reload(false);}
+        )
+    };
 }

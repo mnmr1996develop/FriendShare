@@ -1,46 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import FriendFound from "../Components/FriendFound";
+import AuthContext from "../Context/AuthContext";
 import UserService from "../Services/UserService";
 
-function Friends() {
+const Friends = () => {
     const [search, setSearch] = useState("");
-    const [usersFound, setUsersFound] = useState([1, 2, 3]);
-    const [myFriends, setMyFriends] = useState([]);
+    const [usersFound, setUsersFound] = useState([]);
 
-    var getSearchRequest = (item) => {
-        return UserService.userSearch(item).then((res) => {
-            return res.data;
+    const [myFriends, setMyFriends] = useState(new Set());
+    const [myFriendRequest, setMyFriendRequest] = useState(new Set());
+    const [mySentFriendRequest, setMySentFriendRequest] = useState(new Set());
+
+    let {
+        contextData: { user },
+    } = useContext(AuthContext);
+
+    var getSearchRequest = (e) => {
+        e.preventDefault();
+        UserService.userSearch(search).then((res) => {
+            setUsersFound(res.data);
         });
     };
 
-    function compareUsers(user1, user2) {}
+    useEffect(() => {
+        UserService.getFriends(user.sub).then((res) => {
+            res.data.forEach((item) => {
+                setMyFriends((prev) => new Set([...prev, item.username]));
+            });
+        });
 
-    useEffect(() => {}, []);
+        UserService.getMySentFriendRequest(user.sub).then((res) => {
+            res.data.forEach((item) => {
+                setMySentFriendRequest(
+                    (prev) => new Set([...prev, item.username])
+                );
+            });
+        });
 
-    useEffect(async () => {
-        setUsersFound([]);
-        if (!!search) {
-            const stringArray = search.split(" ");
-            let user = await getSearchRequest(stringArray[0]);
-            setUsersFound(user);
-        }
-    }, [search]);
+        UserService.myFriendRequest(user.sub).then((res) => {
+            res.data.forEach((item) => {
+                setMyFriendRequest((prev) => new Set([...prev, item.username]));
+            });
+        });
+    }, []);
 
     return (
         <div className="Friends">
             <div id="findFriends">
-                <input
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                    }}
-                ></input>
-                {usersFound.map((items) => {
-                    return <div>{items.username}</div>;
-                })}
+                <form onSubmit={getSearchRequest}>
+                    <input
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value.trim());
+                        }}
+                        placeholder="search Username"
+                        required
+                    ></input>
+                    <input type="submit"></input>
+                </form>
+                {usersFound
+                    .filter((item) => {
+                        return user.sub === item.username ? false : true;
+                    })
+                    .map((userFound) => {
+                        if (myFriends.has(userFound.username)) {
+                            return <div> {userFound.username} go to profile</div>;
+                        }
+
+                        if (myFriendRequest.has(userFound.username)) {
+                            return <div> my request </div>;
+                        }
+
+                        if (mySentFriendRequest.has(userFound.username)) {
+                            return (
+                                <FriendFound 
+                                key={userFound.id}
+                                userFound={userFound}
+                                sentRequest={true}
+                                    />
+                            )
+                        }
+                        return (
+                            <FriendFound
+                                key={userFound.id}
+                                userFound={userFound}
+                            />
+                        );
+                    })}
             </div>
             <div id="FriendsMyFriends"></div>
         </div>
     );
-}
+};
 
 export default Friends;

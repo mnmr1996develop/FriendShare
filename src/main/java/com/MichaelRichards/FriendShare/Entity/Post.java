@@ -7,6 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +35,34 @@ public class Post {
 
     @NotNull
     private String status;
+
+    @ManyToMany
+    private List<Post> comments;
+
+    @ManyToMany
+    private List<User> likes;
+
+    public void addLike(User user){
+        if(likes.isEmpty()){
+            likes = new ArrayList<>();
+        }
+        likes.add(user);
+    }
+
+    public void removeLike(User user){
+        likes.remove(user);
+    }
+
+    public void addComment(Post post){
+        if(comments.isEmpty()){
+            comments = new ArrayList<>();
+        }
+        comments.add(post);
+    }
+
+    public void deleteComment(Post post){
+        comments.remove(post);
+    }
 
 
 }

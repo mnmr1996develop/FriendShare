@@ -1,0 +1,43 @@
+.singlePost{
+    
+    min-height: 250px;
+    border-bottom: 2px;
+    
+    border: solid #121212;
+    padding: 30px;
+}
+
+.singlePost:hover{
+    background-color: #68686833;
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+
+.post-details{
+    min-height: 270px;
+    color: rgb(72, 211, 134);
+}
+
+.post-details p{
+    padding-top: 20px;
+}
+
+i{
+    padding-right: 10px;
+}
+
+
+
+.post-bottom{
+    display: flex;
+}
+
+.post-action{
+    width: 50%;
+    display: flex;
+}
+
+.post-action h4:hover{
+    color: rgb(72, 211, 134);
+    cursor: pointer;
+}

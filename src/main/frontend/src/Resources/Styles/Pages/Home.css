@@ -12,16 +12,20 @@
     clear: both;
 }
 
+.Home-space{
+    width: 22.5%;
+}
+
 
 .Home-main {
-    width: 75%;
+    width: 50%;
     float: right;
     
 }
 
 .Home-freinds{
-    width: 25%;
-    background-color: white;
+    width: 27.5%;
+    min-height: 92.5vh;
 }
 
 @media screen and (max-width: 1300px) {
@@ -31,7 +35,7 @@
         
     }
 
-    .Home-freinds{
+    .Home-freinds, .Home-space{
        display: none;
     }
     

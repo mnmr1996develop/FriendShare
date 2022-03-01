@@ -5,6 +5,7 @@ import Messages from "../Pages/Messages";
 import Home from "../Pages/Home";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./Navbar";
+import Notifications from "../Pages/Notifications";
 
 function LoggedInRoutes() {
   return (
@@ -15,6 +16,7 @@ function LoggedInRoutes() {
         <Route path="/friends" element={<Friends />}></Route>
         <Route path="/settings" element={<Settings />}></Route>
         <Route path="/messages" element={<Messages />}></Route>
+        <Route path="/notifications" element={<Notifications />}></Route>
       </Routes>
     </>
   );

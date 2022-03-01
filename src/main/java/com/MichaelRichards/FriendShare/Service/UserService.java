@@ -11,6 +11,8 @@ import com.MichaelRichards.FriendShare.Entity.Post;
 import com.MichaelRichards.FriendShare.Entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -98,6 +100,19 @@ public class UserService implements UserDetailsService {
         userRepository.delete(user);
     }
 
+    public List<Post> getFriendsPost(String username, int pageNumber){
+        User user = findUserByUsername(username);
+        List<User> friends = new ArrayList<>(user.getFriends());
+        friends.add(user);
+        return userRepository.userFriendsPost(friends, PageRequest.of(pageNumber-1,25, Sort.by("localDateTime").descending()));
+    }
+
+    public Long getFriendsPostCount(String username) {
+        User user = findUserByUsername(username);
+        List<User> friends = new ArrayList<>(user.getFriends());
+        friends.add(user);
+        return userRepository.userFriendsPostCount(friends);
+    }
 
     public User findById(Long id){
         return  userRepository.findById(id).orElse(null);
@@ -223,17 +238,43 @@ public class UserService implements UserDetailsService {
     public List<User> addFriend(String username, String friendName){
         User user = findUserByUsername(username);
         User friend = findUserByUsername(friendName);
+        user.getRequest().remove(friend);
+        friend.getSentFriendRequest().remove(user);
         user.addFriend(friend);
         friend.addFriend(user);
         ArrayList<User> friendPair = new ArrayList<>();
         friendPair.add(user);
         friendPair.add(friend);
         return friendPair;
-
     }
+
+    public List<User> sendRequest(String username, String friendName){
+        User user = findUserByUsername(username);
+        User friend = findUserByUsername(friendName);
+        friend.myFriendRequest(user);
+        user.sentFriendRequest(friend);
+        ArrayList<User> friendPair = new ArrayList<>();
+        friendPair.add(user);
+        friendPair.add(friend);
+        return friendPair;
+    }
+
+    public List<User> deleteRequest(String username, String friendName){
+        User user = findUserByUsername(username);
+        User friend = findUserByUsername(friendName);
+        user.getSentFriendRequest().remove(friend);
+        friend.getRequest().remove(user);
+        ArrayList<User> friendPair = new ArrayList<>();
+        friendPair.add(user);
+        friendPair.add(friend);
+        return friendPair;
+    }
+
+
 
     public List<User> searchUsers(String keyword){
         return userRepository.search(keyword);
     }
+
 
 }

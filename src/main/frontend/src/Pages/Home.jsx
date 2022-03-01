@@ -8,6 +8,7 @@ function Home() {
     return (
         <div className="Home">
             <div className="Home-row">
+                <div className="Home-space"/>
                 <div className="Home-main">
                     <PostComponent />
                     <FriendPost />

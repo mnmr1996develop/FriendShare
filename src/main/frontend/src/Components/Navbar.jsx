@@ -14,8 +14,11 @@ function Navbar() {
 
     var handleNavClick = () => setNavClick(!navClick);
 
+    const navClicked = () => {
+        setNavClick(false);
+    };
+
     const [search, setSearch] = useState("");
-    const [usersFound, setUsersFound] = useState([]);
 
     var getSearchRequest = (item) => {
         return UserService.userSearch(item).then((res) => {
@@ -25,19 +28,10 @@ function Navbar() {
 
     var onSubmit = async (e) => {
         e.preventDefault();
-        setUsersFound([]);
-        if (!!search) {
-            const stringArray = search.split(" ");
-            console.log(stringArray);
-
-            let user = await getSearchRequest(stringArray[0]);
-            setUsersFound(user);
-            console.log(usersFound);
-        }
     };
 
     let {
-        contextData: { logout },
+        contextData: { logout, user },
     } = useContext(AuthContext);
 
     return (
@@ -66,8 +60,9 @@ function Navbar() {
                                     type="text"
                                     value={search}
                                     onChange={(e) => {
-                                        setSearch(e.target.value);
+                                        setSearch(e.target.value.trim());
                                     }}
+                                    placeholder="search username"
                                 ></input>
                             </form>
                         </div>
@@ -86,22 +81,47 @@ function Navbar() {
                     <div className={navClick ? "menu" : "menu-condensed"}>
                         <ul className="nav-menu">
                             <li className="nav-item">
-                                <NavLink to="/" className="nav-links">
+                                <NavLink
+                                    onClick={navClicked}
+                                    to="/"
+                                    className="nav-links"
+                                >
                                     Home
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/Friends" className="nav-links">
+                                <NavLink
+                                    onClick={navClicked}
+                                    to="/Settings"
+                                    className="nav-links"
+                                >
+                                    {user.sub}
+                                </NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    onClick={navClicked}
+                                    to="/Friends"
+                                    className="nav-links"
+                                >
                                     Friends
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/Messages" className="nav-links">
+                                <NavLink
+                                    onClick={navClicked}
+                                    to="/Messages"
+                                    className="nav-links"
+                                >
                                     Messages
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to="/Settings" className="nav-links">
+                                <NavLink
+                                    onClick={navClicked}
+                                    to="/Notifications"
+                                    className="nav-links"
+                                >
                                     Notifications
                                 </NavLink>
                             </li>
