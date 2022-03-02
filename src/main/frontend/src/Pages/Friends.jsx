@@ -64,11 +64,11 @@ const Friends = () => {
                     })
                     .map((userFound) => {
                         if (myFriends.has(userFound.username)) {
-                            return <div> {userFound.username} go to profile</div>;
+                            return <div key={userFound.id}> {userFound.username} go to profile</div>;
                         }
 
                         if (myFriendRequest.has(userFound.username)) {
-                            return <div> my request </div>;
+                            return <div  key={userFound.id}> my request </div>;
                         }
 
                         if (mySentFriendRequest.has(userFound.username)) {

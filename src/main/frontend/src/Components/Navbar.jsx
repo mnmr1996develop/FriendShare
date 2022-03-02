@@ -46,13 +46,13 @@ function Navbar() {
                         </div>
                         <div className="search">
                             <div className="search-icon">
-                                <i>
+                                {/* <i>
                                     <FontAwesomeIcon
                                         id="search-icon"
                                         icon={faSearch}
                                         className="fa-search"
                                     ></FontAwesomeIcon>
-                                </i>
+                                </i> */}
                             </div>
                             <form onSubmit={onSubmit}>
                                 <input

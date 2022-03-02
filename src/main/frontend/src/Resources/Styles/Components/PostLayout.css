@@ -15,3 +15,11 @@
 .liked {
     color: rgb(39, 250, 84);
 }
+
+.top-part-post{
+    display: flex;
+    
+}
+.top-part-post h2{
+    width: 95%;
+}

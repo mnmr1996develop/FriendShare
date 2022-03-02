@@ -1,0 +1,8 @@
+.top{
+    display: inline;
+    text-align: center;
+}
+
+.top h1{
+    display: flex;
+}

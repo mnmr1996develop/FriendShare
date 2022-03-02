@@ -82,22 +82,16 @@ export default class UserService {
     };
 
 
-    // static deleteFriendRequest = (username, friendUsername) => {
-    //     const params = new URLSearchParams();
-    //     params.append("friend", friendUsername);
-    //     let urlString = USER_REST_API_URL + username + "/friendRequest";
-    //     return axios({
-    //         method: "DELETE",
-    //         url: urlString,
-    //         params: { friend: friendUsername },
-    //     });
-    // };
-
     static deleteFriendRequest = (username, friendUsername) => {
-        let urlString = USER_REST_API_URL + username + "/friendRequest/?friend=" + friendUsername
-        return axios.delete(urlString)
-    }
-
+        const params = new URLSearchParams();
+        params.append("friend", friendUsername);
+        let urlString = USER_REST_API_URL + username + "/friendRequest";
+        return axios({
+            method: "DELETE",
+            url: urlString,
+            params: { friend: friendUsername },
+        });
+    };
     
 
     static myFriendRequest = (username) => {
