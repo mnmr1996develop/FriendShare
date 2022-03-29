@@ -1,0 +1,36 @@
+.PostPage{
+    display: flex;
+}
+
+.mainPost{
+    width: 45%;
+    background-color: #111;
+    min-height: 100px;
+    color: white;
+    align-items: center;
+    border-radius: .3rem;
+    padding: 25px;
+}
+
+
+
+.mainPost h1, .mainPost h2, .mainPost h3{
+    color: rgb(98, 255, 98);
+}
+
+.topOf{
+    width: 100%;
+}
+
+.space {
+    width: 27.5%;
+}
+
+.postComments{
+    width: 100%;
+    
+}
+
+.hr {
+    margin: 10px;
+}

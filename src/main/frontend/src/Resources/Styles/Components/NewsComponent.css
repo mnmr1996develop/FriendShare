@@ -1,0 +1,22 @@
+img {
+    width: 100%
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    border-radius: .3rem;
+    
+
+}
+
+.articles{
+    border-radius: .3rem;
+    margin-bottom: 50px;
+    padding: 10px;
+    
+    font-size: small;
+}
+.articles:hover{
+    background-color: #111;
+}

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -97,16 +98,23 @@ public class User implements UserDetails {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Authority> authorities;
 
     @Transient
     @Setter(value = AccessLevel.NONE)
     private Long age;
 
-    @OneToMany
+
     @JsonIgnore
-    private List<Post> posts;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
+
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_information_id")
@@ -114,15 +122,15 @@ public class User implements UserDetails {
 
 
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
-    private List<User> friends;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<User> friends = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
-    private List<User> request;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<User> request = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<User> sentFriendRequest;
 
     public Long getAge(){
@@ -169,10 +177,11 @@ public class User implements UserDetails {
     }
 
     public void addPost(Post post){
-        if (posts.isEmpty()){
-            posts = new ArrayList<>();
-        }
         posts.add(post);
+    }
+
+    public void addComment(Comment comment){
+        comments.add(comment);
     }
 
     public void addFriend(User user){
@@ -186,9 +195,6 @@ public class User implements UserDetails {
     }
 
     public void myFriendRequest(User user){
-        if(request.isEmpty()){
-            request = new ArrayList<>();
-        }
         if(request.contains(user) || friends.contains(user)){
             return;
         }
@@ -212,4 +218,21 @@ public class User implements UserDetails {
     public void deletePost(Long id) {
         posts.removeIf(post -> Objects.equals(post.getId(), id));
     }
+
+
+    public void removeComment(Comment comment) {
+        comments.remove(comment);
+    }
+
+    public void deleteComment(Long id) {
+        comments.removeIf(
+                comment -> Objects.equals(comment.getId(), id)
+        );
+    }
+
+    public void deleteComment(Comment comment) {
+        comments.remove(comment);
+    }
+
+
 }

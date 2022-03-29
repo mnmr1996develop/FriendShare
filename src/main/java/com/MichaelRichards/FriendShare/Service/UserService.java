@@ -104,7 +104,12 @@ public class UserService implements UserDetailsService {
         User user = findUserByUsername(username);
         List<User> friends = new ArrayList<>(user.getFriends());
         friends.add(user);
-        return userRepository.userFriendsPost(friends, PageRequest.of(pageNumber-1,25, Sort.by("localDateTime").descending()));
+        return userRepository.userFriendsPost(friends, PageRequest.of(pageNumber-1,10, Sort.by("localDateTime").descending()));
+    }
+
+    public List<User> getFriendScroll(String username, int pageNumber){
+        PageRequest pageRequest = PageRequest.of(pageNumber-1, 10, Sort.by("username").descending());
+        return userRepository.userFriendList(username , pageRequest);
     }
 
     public Long getFriendsPostCount(String username) {

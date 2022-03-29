@@ -15,11 +15,14 @@ const Friends = () => {
         contextData: { user },
     } = useContext(AuthContext);
 
-    var getSearchRequest = (e) => {
-        e.preventDefault();
-        UserService.userSearch(search).then((res) => {
-            setUsersFound(res.data);
-        });
+    var getSearchRequest = (value) => {
+        if (value == "") {
+            setUsersFound([]);
+        } else {
+            UserService.userSearch(value).then((res) => {
+                setUsersFound(res.data);
+            });
+        }
     };
 
     useEffect(() => {
@@ -47,38 +50,42 @@ const Friends = () => {
     return (
         <div className="Friends">
             <div id="findFriends">
-                <form onSubmit={getSearchRequest}>
-                    <input
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value.trim());
-                        }}
-                        placeholder="search Username"
-                        required
-                    ></input>
-                    <input type="submit"></input>
-                </form>
+                <input
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value.trim());
+                        getSearchRequest(e.target.value.trim());
+                    }}
+                    placeholder="search Username"
+                    required
+                ></input>
+
                 {usersFound
                     .filter((item) => {
                         return user.sub === item.username ? false : true;
                     })
                     .map((userFound) => {
                         if (myFriends.has(userFound.username)) {
-                            return <div key={userFound.id}> {userFound.username} go to profile</div>;
+                            return (
+                                <div key={userFound.id}>
+                                    {" "}
+                                    {userFound.username} go to profile
+                                </div>
+                            );
                         }
 
                         if (myFriendRequest.has(userFound.username)) {
-                            return <div  key={userFound.id}> my request </div>;
+                            return <div key={userFound.id}> my request </div>;
                         }
 
                         if (mySentFriendRequest.has(userFound.username)) {
                             return (
-                                <FriendFound 
-                                key={userFound.id}
-                                userFound={userFound}
-                                sentRequest={true}
-                                    />
-                            )
+                                <FriendFound
+                                    key={userFound.id}
+                                    userFound={userFound}
+                                    sentRequest={true}
+                                />
+                            );
                         }
                         return (
                             <FriendFound

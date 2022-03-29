@@ -1,11 +1,12 @@
 .singlePost {
     border-width: 2px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
     min-height: 100px;
     border-radius: 0.3rem;
     overflow-wrap: break-word;
     font-size: 1.2rem;
     hyphens: manual;
+    background-color: #191919;
 }
 
 .singlePost p {
@@ -13,13 +14,67 @@
 }
 
 .liked {
-    color: rgb(39, 250, 84);
+    color: rgb(83, 248, 119);
 }
 
-.top-part-post{
+.top-part-post {
     display: flex;
+}
+.top-part-post h2 {
+    width: 80%;
+}
+
+.top-part-post .postIcon {
+    width: 20%;
+   text-align: right;
+  
+
+}
+
+.postIcon i {
+    margin-right: 15px;
+}
+
+.post-bottom {
+    color: rgb(73, 104, 82);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-post {
+    width: 100%;
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+}
+
+.comment-post input {
+    padding: 3px;
+    width: 85%;
+    height: 35px;
+    border-radius: .5rem;
+    font-size: medium;
+    font-weight: 500;
+    background-color: #222;
+    color: white;
+    border: none;
+}
+
+img{
+    cursor: pointer;
+}
+
+.goToLink{
+    cursor: pointer;
     
 }
-.top-part-post h2{
-    width: 95%;
+
+.goToLink:hover{
+    color: rgb(82, 255, 111);
+}
+
+#loadMore{
+    margin-top: 15px;
+    cursor: pointer;
+    color: rgb(82, 255, 111);
 }

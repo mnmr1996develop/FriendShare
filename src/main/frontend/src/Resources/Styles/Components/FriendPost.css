@@ -1,3 +1,7 @@
 .friendsPostMain {
     padding: 0 30px;
 }
+
+.FriendPost {
+    border-radius: 0.5rem;
+}

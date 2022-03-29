@@ -19,7 +19,7 @@ public class ApiExceptionHandler {
                 notFound,
                 exception.getMessage(),
                 "USER_NOT_FOUND",
-                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+                ZonedDateTime.now(ZoneId.of("UTC"))
         );
         return new ResponseEntity<>(apiException, notFound);
     }
@@ -31,7 +31,7 @@ public class ApiExceptionHandler {
                 badRequest,
                 exception.getMessage(),
                 "EMAIL_TAKEN",
-                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+                ZonedDateTime.now(ZoneId.of("UTC"))
         );
 
         return new ResponseEntity<>(apiException, badRequest);
@@ -44,7 +44,7 @@ public class ApiExceptionHandler {
                 badRequest,
                 exception.getMessage(),
                 "USER_TAKEN",
-                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+                ZonedDateTime.now(ZoneId.of("UTC"))
         );
 
         return new ResponseEntity<>(apiException, badRequest);
@@ -57,7 +57,7 @@ public class ApiExceptionHandler {
                 badRequest,
                 exception.getMessage(),
                 "BAD_LOGIN_DATA",
-                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+                ZonedDateTime.now(ZoneId.of("UTC"))
         );
 
         return new ResponseEntity<>(apiException, badRequest);
@@ -71,7 +71,7 @@ public class ApiExceptionHandler {
                 badRequest,
                 exception.getMessage(),
                 "CONSTRAINT_VIOLATION",
-                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+                ZonedDateTime.now(ZoneId.of("UTC"))
         );
 
         return new ResponseEntity<>(apiException, badRequest);
@@ -84,7 +84,7 @@ public class ApiExceptionHandler {
                 notFound,
                 exception.getMessage(),
                 "POST_NOT_FOUND",
-                ZonedDateTime.now(ZoneId.of("US/Eastern"))
+                ZonedDateTime.now(ZoneId.of("UTC"))
         );
         return new ResponseEntity<>(apiException, notFound);
     }

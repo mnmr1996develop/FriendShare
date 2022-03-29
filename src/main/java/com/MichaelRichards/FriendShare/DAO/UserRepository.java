@@ -27,6 +27,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT count(p) From Post p Where p.user IN (?1)")
     Long userFriendsPostCount(List<User> friends);
 
-
-
+    @Query("SELECT u.friends From User u Where u.username = (?1)")
+    List<User> userFriendList(String username,Pageable pageable);
 }

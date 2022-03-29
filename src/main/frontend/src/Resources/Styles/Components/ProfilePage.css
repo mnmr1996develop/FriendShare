@@ -1,8 +1,54 @@
+
 .top{
-    display: inline;
+    display: block;
+    min-height: 250px;
     text-align: center;
+    color: white;
 }
 
-.top h1{
+.user-profile{
+    justify-content: center;
     display: flex;
+    
+}
+
+.edit-profile{
+    display: flex;
+    cursor: pointer;
+    
+}
+
+.post {
+    display: flex;
+    justify-content: center;
+}
+
+.profile-icon{
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+#user-gear-icon{
+    color: green;
+}
+
+.post-body{
+    width: 50%;
+
+}
+
+@media screen and (max-width: 1400px) {
+    .post-body{
+        width: 75%;
+    
+    }
+    
+}
+
+@media screen and (max-width: 990px) {
+    .post-body{
+        width: 100%;
+    
+    }
+    
 }

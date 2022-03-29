@@ -1,6 +1,6 @@
 .RegistrationForm {
     display: flex;
-    width: 50%;
+    width: 1000px;
     justify-content: right;
     align-items: center;
 }
@@ -23,13 +23,14 @@
     display: block;
     font-size: 20px;
     padding: 2%;
-    height: 60%;
+    height: 900px;
     font-size: 80%;
 }
 
-.top {
+.top-registration {
     height: 18%;
     display: flex;
+    
 }
 
 .input-holder {
@@ -42,7 +43,8 @@
 
 .lettering {
     width: 90%;
-    height: 100%;
+   height: 1px;
+    
 }
 
 .close {
@@ -142,8 +144,4 @@ li {
     }
 }
 
-@media screen and (max-height: 800px) {
-    .RegistrationForm form {
-        height: 500px;
-    }
-}
+

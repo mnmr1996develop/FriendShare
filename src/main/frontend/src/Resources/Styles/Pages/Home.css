@@ -12,31 +12,31 @@
     clear: both;
 }
 
-.Home-space{
-    width: 22.5%;
+.Home-space {
+    width: 25%;
+    padding-right: 30px;
 }
-
 
 .Home-main {
     width: 50%;
     float: right;
-    
 }
 
-.Home-freinds{
-    width: 27.5%;
-    min-height: 92.5vh;
+.Home-freinds {
+    width: 25%;
+    padding-left: 30px;
+    text-align: right;
+    
 }
 
 @media screen and (max-width: 1300px) {
     .Home-main {
         width: 100%;
         float: center;
-        
     }
 
-    .Home-freinds, .Home-space{
-       display: none;
+    .Home-freinds,
+    .Home-space {
+        display: none;
     }
-    
 }

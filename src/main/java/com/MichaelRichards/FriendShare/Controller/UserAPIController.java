@@ -22,6 +22,8 @@ public class UserAPIController {
     @Autowired
     private UserService userService;
 
+    final String basePath = "api/users/";
+
     @GetMapping
     public ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.status(HttpStatus.OK).body((new ArrayList<>(userService.findAll())));
@@ -29,7 +31,7 @@ public class UserAPIController {
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user) throws Exception{
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api").toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(basePath).toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
@@ -66,46 +68,42 @@ public class UserAPIController {
 
     @PostMapping("{username}/friends/add")
     public ResponseEntity<List<User>> addFriend( @PathVariable("username") String username, @RequestParam String friend) throws Exception{
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends/add").toUriString());
-        return ResponseEntity.ok().body(userService.addFriend(username, friend));
+        String path = basePath + username + "/friends/add";
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString());
+        return ResponseEntity.created(uri).body(userService.addFriend(username, friend));
     }
 
     @GetMapping("{username}/friends")
     public ResponseEntity<List<User>> getFriends(@PathVariable("username") String username) throws Exception{
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends/").toUriString());
         return ResponseEntity.ok().body(userService.findUserByUsername(username).getFriends());
+    }
+
+    @GetMapping("{username}/friendsScroll")
+    public ResponseEntity<List<User>> getFriendScroll(@PathVariable("username") String username, @RequestParam int pageNumber) throws Exception{
+        return ResponseEntity.ok().body(userService.getFriendScroll(username, pageNumber));
     }
 
     @PostMapping("{username}/friendRequest")
     public ResponseEntity<List<User>> sendFriendRequest( @PathVariable("username") String username, @RequestParam String friend) throws Exception{
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friendRequest").toUriString());
-        return ResponseEntity.ok().body(userService.sendRequest(username, friend));
+        String path = basePath + username + "/friendRequest";
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path(path).toUriString());
+        return ResponseEntity.created(uri).body(userService.sendRequest(username, friend));
     }
 
     @GetMapping("{username}/friendRequest")
     public ResponseEntity<List<User>> getFriendRequest(@PathVariable("username") String username) throws Exception{
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friendRequest").toUriString());
         return ResponseEntity.ok().body(new ArrayList<>(userService.findUserByUsername(username).getRequest()));
     }
 
     @DeleteMapping("{username}/friendRequest")
     public ResponseEntity<List<User>> deleteFriendRequest(@PathVariable("username") String username , @RequestParam String friend) throws Exception{
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friendRequest").toUriString());
         return ResponseEntity.ok().body(new ArrayList<>(userService.deleteRequest(username, friend)));
     }
 
 
-
     @GetMapping("{username}/sentFriendRequest")
     public ResponseEntity<List<User>> getSentFriendRequest(@PathVariable("username") String username) throws Exception{
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/friends").toUriString());
         return ResponseEntity.ok().body(new ArrayList<>(userService.findUserByUsername(username).getSentFriendRequest()));
     }
-
-
-
-
-
-
 }
 

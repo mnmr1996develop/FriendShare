@@ -1,0 +1,11 @@
+.NavBufferSpace {
+    height: 60px;
+    margin-bottom: 15px;
+
+}
+
+@media only screen and (max-width: 990px) {
+    .NavBufferSpace {
+        display: none;
+    }
+}

@@ -8,9 +8,9 @@
 }
 
 .singlePost:hover{
-    background-color: #68686833;
+    background-color: #000;
     transform: translateY(-2px);
-    cursor: pointer;
+    
 }
 
 .post-details{
@@ -24,6 +24,10 @@
 
 i{
     padding-right: 10px;
+}
+
+i:hover{
+    cursor: pointer;
 }
 
 

@@ -2,7 +2,6 @@ package com.MichaelRichards.FriendShare.Controller;
 
 import com.MichaelRichards.FriendShare.Entity.Post;
 import com.MichaelRichards.FriendShare.Service.UserService;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

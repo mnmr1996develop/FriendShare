@@ -1,0 +1,16 @@
+.ErrorPage {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+
+.errorImage{
+    width: 60%;
+}
+
+@media screen and (max-width: 960px) {
+    .errorImage{
+        width: 100%;
+    }
+}
+

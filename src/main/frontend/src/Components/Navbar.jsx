@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "../Resources/Styles/Components/Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,7 @@ function Navbar() {
     library.add(faBars);
 
     const [navClick, setNavClick] = useState(false);
+    const [path, setPath] = useState("");
 
     var handleNavClick = () => setNavClick(!navClick);
 
@@ -25,6 +26,11 @@ function Navbar() {
             return res.data;
         });
     };
+
+    useEffect(() => {
+        let string  = "user/" + user.sub
+        setPath(string)
+    },[])
 
     var onSubmit = async (e) => {
         e.preventDefault();
@@ -92,7 +98,7 @@ function Navbar() {
                             <li className="nav-item">
                                 <NavLink
                                     onClick={navClicked}
-                                    to="/Settings"
+                                    to={path}
                                     className="nav-links"
                                 >
                                     {user.sub}
@@ -105,15 +111,6 @@ function Navbar() {
                                     className="nav-links"
                                 >
                                     Friends
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink
-                                    onClick={navClicked}
-                                    to="/Messages"
-                                    className="nav-links"
-                                >
-                                    Messages
                                 </NavLink>
                             </li>
                             <li className="nav-item">

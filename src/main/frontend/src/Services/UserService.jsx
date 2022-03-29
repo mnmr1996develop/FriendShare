@@ -6,12 +6,15 @@ const USER_FRIEND_POST_API_URL = "http://localhost:8080/api/friends/posts/";
 
 const USER_POST_API_URL = "http://localhost:8080/api/posts/";
 
+
 const USER_LOGIN_API_URL = "http://localhost:8080/login";
 
 export default class UserService {
     static getUsers = () => {
         return axios.get(USER_REST_API_URL);
     };
+
+    
 
     static getUser = (username) => {
         const urlString = USER_REST_API_URL + username;
@@ -40,6 +43,27 @@ export default class UserService {
             });
     };
 
+    static postImage = (username, post, imageUrl) => {
+        let urlString = USER_POST_API_URL;
+        urlString += username;
+        urlString += "/postImage";
+        const params = new URLSearchParams();
+        params.append("imageLink", imageUrl);
+        return axios({
+            method: "POST",
+            url: urlString,
+            headers: { "Content-Type": "application/json" },
+            data: post,
+            params: params
+        })
+            .then(() => {
+                window.location.reload(false);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
     static login = (username, password) => {
         const params = new URLSearchParams();
         params.append("username", username);
@@ -52,6 +76,17 @@ export default class UserService {
         urlString += username;
         urlString += "/friends/";
         return axios.get(urlString);
+    };
+
+    static getFriendScroll = (username, page) => {
+        let urlString = USER_REST_API_URL + username + "/friendsScroll";
+        const params = new URLSearchParams();
+        params.append("pageNumber", page);
+        return axios({
+            method: "GET",
+            params: params,
+            url: urlString,
+        });
     };
 
     static friendsPost = (username, pageNumber) => {
@@ -81,7 +116,6 @@ export default class UserService {
         });
     };
 
-
     static deleteFriendRequest = (username, friendUsername) => {
         const params = new URLSearchParams();
         params.append("friend", friendUsername);
@@ -92,7 +126,6 @@ export default class UserService {
             params: { friend: friendUsername },
         });
     };
-    
 
     static myFriendRequest = (username) => {
         const urlString = USER_REST_API_URL + username + "/friendRequest";
@@ -112,8 +145,8 @@ export default class UserService {
             method: "POST",
             url: urlString,
             params: { friend: friendUsername },
-        }).then(
-            () => {window.location.reload(false);}
-        )
+        }).then(() => {
+            window.location.reload(false);
+        });
     };
 }

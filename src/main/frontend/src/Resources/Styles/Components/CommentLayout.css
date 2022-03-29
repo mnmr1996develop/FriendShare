@@ -1,0 +1,97 @@
+.CommentLayout {
+    background-color: #262626;
+    padding: 10px 20px;
+    min-height: 110px;
+    margin-top: 10px;
+    border-radius: 1rem;
+    display: block;
+}
+
+.commentActions{
+    color: white;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.topOfComment{
+    display: flex;
+}
+
+.commentOwnerName {
+    width: 80%;
+    cursor: pointer;
+}
+
+.commentUsername{
+    cursor: pointer;
+}
+
+
+
+.commentOwnerName h4:hover, .commentUsername h4:hover {
+   color: rgb(82, 255, 111);
+}
+
+.deleteButton {
+    width: 20%;
+    color: rgb(72, 211, 134);
+}
+
+
+.commentText {
+    margin: 15px 10px;
+}
+
+
+
+
+
+
+.CommentLayout:hover {
+    background-color: #181818;
+}
+
+.CommentLayout h4, h6 {
+    color: rgb(72, 211, 134);
+}
+
+i {
+    color: rgb(83, 248, 119);
+}
+
+.space {
+    width: 80%;
+}
+
+.deleteComment {
+    text-align: right;
+    display: flex;
+}
+
+.deleteButton:hover {
+    color: rgb(255, 19, 19);
+    cursor: pointer;
+}
+
+
+
+.CommentLike:hover {
+    color: rgb(83, 248, 119);
+    cursor: pointer;
+}
+
+.CommentLike {
+    color: rgb(83, 248, 119);
+}
+
+
+
+@media screen and (max-width: 550px){
+    .commentOwnerName {
+        width: 60%;
+    }
+    .deleteButton {
+        width: 40%;
+        
+    }
+}

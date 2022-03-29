@@ -1,55 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Comforter&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Comforter&display=swap'); */
 
-.postForm{
-    
+.postForm {
     width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.postForm form {
-    margin-top: 0;
-    padding: 1ch;
-    height: 200px;
-    width: 40%;
-    display: block;
-
-}
-
-.postText{
-    height: 75%;
+    min-height: 110px;
     text-align: center;
+    margin: 0px 0 15px 0px;
+    border-radius: 0.3rem;
+}
+
+.postForm:hover {
+    background-color: #333;
 }
 
 .postForm textarea {
-    padding: 1ch;
-    width: 94%;
-    height: 80%;
-    border-radius: .3rem;
+    padding: 10px;
+    width: 80%;
     resize: none;
-    font-size: medium;
-}
-
-#postFormSubmit{
-    width: 100%;
-    
-    text-align: center;
-}
-
-#postFormSubmit button{
-    height: 40px;
-    width: 200px;
-    background-color: green;
-    border-radius: .4rem;
+    min-height: 110px;
+    font-size: 22px;
+    border-radius: 0.5rem;
+    padding: 3px;
+    background-color: #232323;
     color: white;
-    font-size: large;
-    font-family: 'Comforter', cursive;
+    margin: 10px 0px;
+    font-family: sans-serif;
 }
 
-@media screen and (max-width: 768px) {
-    .postForm form {
-        
-        width: 100%;
+.typeOfPost {
+    color: white;
+    font-size: larger;
+}
 
-    }
+.typeOfPost label {
+    margin: 10px;
+    color:  rgb(72, 211, 134);
+    font-size: larger;
+}
+
+.typeOfPost input {
+    margin-left: 5px;
+}
+
+.typeOfPost h3 {
+    color: rgb(72, 211, 134);
+}
+
+
+
+.linkToImage input {
+    margin-top: 5px;
+    background-color: aliceblue;
+    width: 40%;
+    height: 30px;
+    font-size: large;
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+    border-color: rgb(72, 211, 134);
+    border-width: 3px;
+    outline: none;
+}
+
+#invalidLink {
+    color: red;
 }

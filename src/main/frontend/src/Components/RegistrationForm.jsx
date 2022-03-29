@@ -157,7 +157,7 @@ function RegistrationForm() {
     return (
         <div className="RegistrationForm">
             <form onSubmit={handleSubmit}>
-                <div className="top">
+                <div className="top-registration">
                     <div className="lettering">
                         <h1>Sign Up</h1>
                         <h4>it's Quick and easy.</h4>

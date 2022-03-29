@@ -3,9 +3,9 @@
 .navbar {
     top: 0;
     display: flex;
-    z-index: 0;
+    z-index: 10000;
     font-size: 1.2rem;
-    position: relative;
+    position: fixed;
     width: 100%;
 }
 
@@ -172,7 +172,7 @@ form {
 
     .nav-menu {
         border-radius: 5px;
-        height: 325px;
+        height: 270px;
     }
 
     .menu {
